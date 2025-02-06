@@ -1,0 +1,16 @@
+<h2>Entrar no sistema</h2>
+<form (ngSubmit)="onSubmit()">
+  <p>
+    <label for="email">Informe seu e-mail cadastrado:</label>
+    <input type="email" id="email" name="email" [(ngModel)]="email" required>
+  </p>
+  <p>
+    <label for="password">Informe sua senha:</label>
+    <input type="password" id="password" name="password" [(ngModel)]="password" required>
+  </p>
+  <button type="submit">Entrar</button>
+@if(loginError){
+    <div>{{ loginError }}</div>
+}
+  
+</form>
