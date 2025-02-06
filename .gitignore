@@ -42,3 +42,5 @@ testem.log
 Thumbs.db
 # project
 src/environments
+# firebase
+.firebaserc
