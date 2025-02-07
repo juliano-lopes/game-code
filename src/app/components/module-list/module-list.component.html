@@ -1,1 +1,10 @@
-<p>Usuário: {{(auth.user$|async)?.email}}</p>
+<h2>Módulos</h2>
+<ul>
+    @if((modules$|async)){
+        @for(module of modules; track module.number) {
+  <li>
+    <a [routerLink]="['/exercises', module.id]" [title]="module.description">{{ module.name }}</a>
+  </li>
+}
+}
+</ul>

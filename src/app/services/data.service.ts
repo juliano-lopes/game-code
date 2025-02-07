@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, query, where, addDoc, doc, setDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, where, addDoc, doc, setDoc, deleteDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Module } from '../types/module';
 import { Exercise } from '../types/exercise';
+import { orderBy, query } from '@firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class DataService {
 
   getModules(): Observable<Module[]> {
     const modulesCollection = collection(this.firestore, 'modules');
-    return collectionData(modulesCollection, { idField: 'id' }) as Observable<Module[]>;
+    const modulesQuery = query(modulesCollection, orderBy("number"));
+    return collectionData(modulesQuery, { idField: 'id' }) as Observable<Module[]>;
   }
 
   getExercisesByModuleId(moduleId: string): Observable<Exercise[]> {
