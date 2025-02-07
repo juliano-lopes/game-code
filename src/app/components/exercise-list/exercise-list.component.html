@@ -1,0 +1,12 @@
+<h2>Exercícios</h2>
+@if((exercises$|async)){
+<div>
+    @for(exercise of exercises; track exercise.id){
+    <div>
+        <h3>Exercício {{ exercise.number }}</h3>
+        <button [routerLink]="['/exercise-execution', exercise.id]">Abrir Exercício {{exercise.number}}</button>
+    </div>
+    }
+
+</div>
+}
