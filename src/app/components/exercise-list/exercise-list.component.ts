@@ -5,9 +5,10 @@ import { Exercise } from '../../types/exercise';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { RouterLink } from '@angular/router';
+import { ExerciseExecutionComponent } from '../exercise-execution/exercise-execution.component';
 @Component({
   selector: 'app-exercise-list',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, ExerciseExecutionComponent],
   templateUrl: './exercise-list.component.html',
   styleUrl: './exercise-list.component.css'
 })

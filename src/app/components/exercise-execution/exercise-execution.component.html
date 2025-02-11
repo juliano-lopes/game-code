@@ -1,0 +1,60 @@
+@if(exercise){
+<div>
+    <h2>Exercício {{exercise.number}}</h2>
+    <div [innerHTML]="trustedExerciseStatement"></div>
+    @if(!isExerciseCompleted){
+    <div>
+
+        <h3>Elementos embaralhados</h3>
+        <ul>
+            @for(element of shuffledElements; track $index){
+            <button (click)="addElementToFormedLine(element)">{{ element }}</button>
+            }
+        </ul>
+    </div>
+    }
+
+    <div>
+        <h3>Linhas formadas:</h3>
+        <ol>
+            @for(line of formedLinesCorrectly; track $index){
+            <li>{{line}}</li>
+            }
+            @empty {<li>Nenuma linha formada ainda...</li>}
+        </ol>
+    </div>
+    <div>
+        @if(!isExerciseCompleted){
+        <h4>Forme a linha {{currentLineIndex + 1}}</h4>
+        @if(formedLine){
+        <div>{{ formedLine }}</div>
+        }
+        @else {<div>Ainda nenhum elemento foi adicionado para formar esta linha...</div>}
+
+        <button (click)="removeElementFromFormedLine()" [disabled]="!formedLine">Remover último elemento
+            adicionado à linha</button>
+
+
+        <button (click)="confirmLine()" [disabled]="isConfirmDisabled">Confirmar</button>
+
+        @if (showStatusMessage=="success"){
+        <div role="alert">
+            <p>Linha {{currentLineIndex}} formada corretamente!</p>
+        </div>
+        }
+        @if(showStatusMessage=="fail"){
+        <div role="alert">
+            <p>Linha {{currentLineIndex + 1}} não formada corretamente. Remova os elementos e os coloquem na ordem
+                correta.
+            </p>
+        </div>
+        }
+        }
+        @else {
+        <p>Parabéns por concluir este exercício com sucesso!</p>
+        <button (click)="onBackToExerciseListActivated()">Voltar para Lista de exercícios</button>
+        }
+    </div>
+
+</div>
+}
