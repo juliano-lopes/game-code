@@ -21,13 +21,16 @@ export class ExerciseListComponent implements OnInit {
   constructor(private dataService: DataService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.moduleId = this.route.snapshot.paramMap.get('moduleId');
-    if (this.moduleId) {
-      this.exercises$ = this.dataService.getExercisesByModuleId(this.moduleId);
-      this.exercises$.subscribe((exercises) => {
-        this.exercises = exercises.sort((a, b) => a.number - b.number);
-      });
-    }
+    //this.moduleId = this.route.snapshot.paramMap.get('moduleId');
+    this.route.paramMap.subscribe(params => {
+      this.moduleId = params.get('moduleId');
+      if (this.moduleId) {
+        this.exercises$ = this.dataService.getExercisesByModuleId(this.moduleId);
+        this.exercises$.subscribe((exercises) => {
+          this.exercises = exercises.sort((a, b) => a.number - b.number);
+        });
+      }
+    });
   }
   onSelectExercise(exercise: Exercise) {
     this.selectedExercise = exercise;

@@ -1,5 +1,6 @@
 @if(!selectedExercise){
 <h2>Exercícios</h2>
+
 @if((exercises$|async)){
 <div>
     @for(exercise of exercises; track exercise.id){
