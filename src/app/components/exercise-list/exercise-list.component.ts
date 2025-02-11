@@ -15,6 +15,7 @@ export class ExerciseListComponent implements OnInit {
   exercises$: Observable<Exercise[]> | undefined;
   exercises: Exercise[] = [];
   moduleId: string | null = null;
+  selectedExercise: Exercise | undefined;
 
   constructor(private dataService: DataService, private route: ActivatedRoute) { }
 
@@ -22,7 +23,15 @@ export class ExerciseListComponent implements OnInit {
     this.moduleId = this.route.snapshot.paramMap.get('moduleId');
     if (this.moduleId) {
       this.exercises$ = this.dataService.getExercisesByModuleId(this.moduleId);
-      this.exercises$.subscribe((exercises) => this.exercises = exercises);
+      this.exercises$.subscribe((exercises) => {
+        this.exercises = exercises.sort((a, b) => a.number - b.number);
+      });
     }
+  }
+  onSelectExercise(exercise: Exercise) {
+    this.selectedExercise = exercise;
+  }
+  onBackToExerciseList() {
+    this.selectedExercise = undefined;
   }
 }
