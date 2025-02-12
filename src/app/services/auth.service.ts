@@ -21,10 +21,36 @@ export class AuthService {
   async login(email: string, password: string): Promise<void> {
     try {
       await signInWithEmailAndPassword(this.auth, email, password);
-      this.router.navigate(['/modules']);
     } catch (error: any) {
       console.error("Login error:", error);
-      throw error;
+      let message = '';
+      switch (error.code) {
+        case 'auth/user-not-found': {
+          message = 'Não	existe	usuário	para	o	email	informado';
+          break;
+        }
+        case 'auth/invalid-email': {
+          message = 'Email	inválido';
+          break;
+        }
+        case 'auth/wrong-password': {
+          message = 'Senha	Inválida';
+          break;
+        }
+        case 'auth/invalid-credential': {
+          message = "Usuário ou senha inválidos";
+          break;
+        }
+        case 'auth/missing-password': {
+          message = "A senha é obrigatória";
+          break;
+        }
+        default: {
+          message = error.message;
+          break;
+        }
+      }
+      throw message;
     }
   }
 

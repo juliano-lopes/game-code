@@ -26,11 +26,10 @@ if(user) {
 
   async onSubmit(): Promise<void> {
     try {
-      alert(this.email)
       await this.authService.login(this.email, this.password);
       this.router.navigate(['/modules']); // Redirect to modules page on success
     } catch (error: any) {
-      this.loginError = error.message;
+      this.loginError = error;
     }
   }
 }
