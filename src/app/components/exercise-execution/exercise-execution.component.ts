@@ -7,7 +7,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-exercise-execution',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './exercise-execution.component.html',
   styleUrl: './exercise-execution.component.css'
 })
