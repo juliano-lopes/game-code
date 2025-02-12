@@ -1,12 +1,13 @@
-<h2>Módulos</h2>
 <ul>
+  <li>
+    <a [routerLink]="['/home']" title="Página inicial">Início</a>
+  </li>
+
   @if((modules$|async)){
   @for(module of modules; track module.number) {
   <li>
-    <a [routerLink]="['/modules', module.id, 'exercises']" [title]="module.description">{{ module.name }}</a>
+    <a [routerLink]="['/home/exercises', module.id]" [title]="module.description">{{ module.name }}</a>
   </li>
   }
   }
 </ul>
-
-<router-outlet></router-outlet>

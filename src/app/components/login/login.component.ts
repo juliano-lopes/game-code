@@ -15,19 +15,19 @@ export class LoginComponent implements OnInit {
   password = '';
   loginError: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
-if(user) {
-  this.router.navigate(['/modules']);
-}
+      if (user) {
+        this.router.navigate(['/home']);
+      }
     });
   }
 
   async onSubmit(): Promise<void> {
     try {
       await this.authService.login(this.email, this.password);
-      this.router.navigate(['/modules']); // Redirect to modules page on success
+      this.router.navigate(['/home']); // Redirect to modules page on success
     } catch (error: any) {
       this.loginError = error;
     }

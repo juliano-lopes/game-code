@@ -5,10 +5,9 @@ import { Observable } from 'rxjs';
 import { Module } from '../../types/module';
 import { DataService } from '../../services/data.service';
 import { RouterLink } from '@angular/router';
-import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-module-list',
-  imports: [CommonModule, RouterLink, RouterOutlet],
+  imports: [CommonModule, RouterLink],
   templateUrl: './module-list.component.html',
   styleUrl: './module-list.component.css'
 })
