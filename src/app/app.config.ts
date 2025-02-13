@@ -7,6 +7,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore'; // Imp
 import { environment } from '../environments/environment';
 import { AuthService } from './services/auth.service';
 import { DataService } from './services/data.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,6 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()), // Provide Firestore
     AuthService,
-    DataService
+    DataService, provideAnimationsAsync()
   ]
 };
