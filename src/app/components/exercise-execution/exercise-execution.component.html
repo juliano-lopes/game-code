@@ -1,6 +1,6 @@
 @if(exercise){
 <div>
-    <h2>Exercício {{exercise.number}}</h2>
+    <h2 tabindex="-1" #exerciseTitle>Exercício {{exercise.number}}</h2>
     <button (click)="onBackToExerciseListActivated()">Fechar exercício</button>
     <div [innerHTML]="trustedExerciseStatement"></div>
     @if(!isExerciseCompleted){

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 
 @Component({
   selector: 'app-welcome',
@@ -10,6 +10,10 @@ import { Component } from '@angular/core';
   `,
   styles: ``
 })
-export class WelcomeComponent {
+export class WelcomeComponent implements AfterViewInit {
+  title: string = "Game Code App";
+  ngAfterViewInit(): void {
+    document.title = this.title;
+  }
 
 }

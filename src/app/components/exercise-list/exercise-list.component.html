@@ -6,7 +6,7 @@
     @for(exercise of exercises; track exercise.id){
     <div>
         <h3>Exercício {{ exercise.number }}</h3>
-        <button (click)="onSelectExercise(exercise)">Abrir Exercício {{exercise.number}}</button>
+        <button [id]="exercise.id" (click)="onSelectExercise(exercise)">Abrir Exercício {{exercise.number}}</button>
     </div>
     }
 

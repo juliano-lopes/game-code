@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Exercise } from '../../types/exercise';
@@ -12,7 +12,8 @@ import { ExerciseExecutionComponent } from '../exercise-execution/exercise-execu
   templateUrl: './exercise-list.component.html',
   styleUrl: './exercise-list.component.css'
 })
-export class ExerciseListComponent implements OnInit {
+export class ExerciseListComponent implements OnInit, AfterViewInit {
+  title: string = "Exercícios";
   exercises$: Observable<Exercise[]> | undefined;
   exercises: Exercise[] = [];
   moduleId: string | null = null;
@@ -32,10 +33,19 @@ export class ExerciseListComponent implements OnInit {
       }
     });
   }
+  ngAfterViewInit(): void {
+    document.title = `${this.title} - ${document.title}`;
+  }
+
   onSelectExercise(exercise: Exercise) {
     this.selectedExercise = exercise;
   }
   onBackToExerciseList() {
+    let id = this.selectedExercise ? this.selectedExercise.id : '';
     this.selectedExercise = undefined;
+    setTimeout(() => {
+      let el = document.getElementById(id);
+      el ? el.focus() : false;
+    }, 500);
   }
 }

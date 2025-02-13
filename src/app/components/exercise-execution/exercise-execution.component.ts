@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Exercise } from '../../types/exercise';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +11,8 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './exercise-execution.component.html',
   styleUrl: './exercise-execution.component.css'
 })
-export class ExerciseExecutionComponent implements OnInit {
+export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
+  @ViewChild('exerciseTitle') exerciseTitle!: ElementRef;
   @Input() exercise!: Exercise;
   trustedExerciseStatement: any;
   @Output() backToExerciseList = new EventEmitter();
@@ -36,6 +37,11 @@ export class ExerciseExecutionComponent implements OnInit {
     this.shuffleLine();
 
   }
+
+  ngAfterViewInit(): void {
+    this.exerciseTitle.nativeElement.focus();
+  }
+
 
   shuffleLine(): void {
     this.elementsToFormLine = [];
