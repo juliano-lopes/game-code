@@ -5,8 +5,10 @@
 <div>
     @for(exercise of exercises; track exercise.id){
     <div>
-        <h3>Exercício {{ exercise.number }}</h3>
-        <button [id]="exercise.id" (click)="onSelectExercise(exercise)">Abrir Exercício {{exercise.number}}</button>
+        <button mat-raised-button color="primary" [id]="exercise.id" (click)="onSelectExercise(exercise)">
+            <mat-icon>code</mat-icon> <!-- Add the icon -->
+            Abrir Exercício {{exercise.number}}
+        </button>
     </div>
     }
 
