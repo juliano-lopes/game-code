@@ -1,13 +1,13 @@
-<ul>
-  <li>
-    <a [routerLink]="['/home']" title="Página inicial">Início</a>
-  </li>
+<mat-tab-group (selectedIndexChange)="selectModule($event)">
+  <mat-tab label="Início">
+    <ng-template matTabContent>
+      <app-welcome></app-welcome>
+    </ng-template>
+  </mat-tab>
 
-  @if((modules$|async)){
-  @for(module of modules; track module.number) {
-  <li>
-    <a [routerLink]="['/home/exercises', module.id]" [title]="module.description">{{ module.name }}</a>
-  </li>
-  }
-  }
-</ul>
+  <mat-tab *ngFor="let module of modules$ | async" [label]="module.name.split(' ').slice(1).join('')">
+    <ng-template matTabContent>
+      <app-exercise-list [moduleId]="module.id" [moduleName]="module.name"></app-exercise-list>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

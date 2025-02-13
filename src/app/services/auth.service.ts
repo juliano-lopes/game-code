@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, user } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, User, user } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { doc, setDoc, Firestore } from '@angular/fire/firestore';
@@ -9,13 +9,14 @@ import { doc, setDoc, Firestore } from '@angular/fire/firestore';
 })
 export class AuthService {
   user$: Observable<any>;
-
+  user!: User;
   constructor(
     private auth: Auth,
     private router: Router,
     private firestore: Firestore
   ) {
     this.user$ = user(this.auth);
+    this.user$.subscribe((user) => this.user = user);
   }
 
   async login(email: string, password: string): Promise<void> {

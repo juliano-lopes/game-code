@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Exercise } from '../../types/exercise';
@@ -13,28 +13,30 @@ import { ExerciseExecutionComponent } from '../exercise-execution/exercise-execu
   styleUrl: './exercise-list.component.css'
 })
 export class ExerciseListComponent implements OnInit, AfterViewInit {
-  title: string = "Exercícios";
+  title!: string;
   exercises$: Observable<Exercise[]> | undefined;
   exercises: Exercise[] = [];
-  moduleId: string | null = null;
+  @Input() moduleName!: string;
+  @Input() moduleId: string | null = null;
   selectedExercise: Exercise | undefined;
 
   constructor(private dataService: DataService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     //this.moduleId = this.route.snapshot.paramMap.get('moduleId');
-    this.route.paramMap.subscribe(params => {
-      this.moduleId = params.get('moduleId');
-      if (this.moduleId) {
-        this.exercises$ = this.dataService.getExercisesByModuleId(this.moduleId);
-        this.exercises$.subscribe((exercises) => {
-          this.exercises = exercises.sort((a, b) => a.number - b.number);
-        });
-      }
-    });
+    //this.route.paramMap.subscribe(params => {
+    //this.moduleId = params.get('moduleId');
+    if (this.moduleId) {
+      this.exercises$ = this.dataService.getExercisesByModuleId(this.moduleId);
+      this.exercises$.subscribe((exercises) => {
+        this.exercises = exercises.sort((a, b) => a.number - b.number);
+      });
+    }
+    //});
   }
   ngAfterViewInit(): void {
-    document.title = `${this.title} - ${document.title}`;
+    this.title = `Exercícios ${this.moduleName}`;
+    document.title = `${this.title} - Game Code App`;
   }
 
   onSelectExercise(exercise: Exercise) {
