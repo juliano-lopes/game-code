@@ -5,7 +5,7 @@
     </ng-template>
   </mat-tab>
 
-  <mat-tab *ngFor="let module of modules$ | async" [label]="module.name.split(' ').slice(1).join('')">
+  <mat-tab *ngFor="let module of modules$ | async" [label]="module.name.split(' ').slice(1).join(' ')">
     <ng-template matTabContent>
       <app-exercise-list [moduleId]="module.id" [moduleName]="module.name"></app-exercise-list>
     </ng-template>
