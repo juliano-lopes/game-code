@@ -1,0 +1,54 @@
+.exercise-card {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.exercise-statement {
+    margin-bottom: 20px;
+    /* Add spacing below the statement */
+}
+
+.exercise-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.formed-lines-area {
+    flex: 1;
+}
+
+.right-side {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.shuffled-elements-area {
+    /* Style for shuffled buttons if needed */
+}
+
+.new-line-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.formed-line {
+    flex: 1;
+}
+
+.success-message {
+    color: green;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.error-message {
+    color: red;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

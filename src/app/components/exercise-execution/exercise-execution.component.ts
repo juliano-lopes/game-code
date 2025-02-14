@@ -4,10 +4,15 @@ import { DataService } from '../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 @Component({
   selector: 'app-exercise-execution',
-  imports: [],
+  imports: [MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule],
   templateUrl: './exercise-execution.component.html',
   styleUrl: './exercise-execution.component.css'
 })
