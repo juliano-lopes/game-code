@@ -48,10 +48,8 @@
                     @else {<div>Ainda nenhum elemento foi adicionado para formar esta linha...</div>}
 
                     <button mat-icon-button color="warn" (click)="removeElementFromFormedLine()"
-                        [disabled]="!formedLine">
-                        <mat-icon>delete</mat-icon>
-                        Remover último elemento adicionado à linha
-                    </button>
+                        [disabled]="!formedLine"
+                        aria-label="Remover último elemento adicionado"><mat-icon>delete</mat-icon></button>
 
                     <button mat-raised-button color="primary" (click)="confirmLine()" [disabled]="isConfirmDisabled">
                         <mat-icon>check</mat-icon> Confirmar</button>

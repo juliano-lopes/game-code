@@ -2,9 +2,9 @@
     <h1>Game Code App</h1>
     <span class="spacer"></span>
     @if(authService.user$ | async) {
-    <span>Olá, {{authService.user.email}}</span>
+    <div>Olá, {{authService.user.email}}</div>
     }
 
-    <button mat-button (click)="logout()">Sair do Sistema</button>
+    <div><button mat-button (click)="logout()">Sair do Sistema</button></div>
 </mat-toolbar>
 <app-module-list></app-module-list>
