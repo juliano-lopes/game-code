@@ -14,27 +14,27 @@
 
             <div class="formed-lines-area">
                 <h3>Linhas formadas:</h3>
-                <mat-list>
+                <ol mat-list>
                     @for(line of formedLinesCorrectly; track $index){
                     <mat-list-item>{{ line }}</mat-list-item>
                     }
                     @empty {
                     <mat-list-item>Nenhuma linha formada ainda...</mat-list-item>
                     }
-                </mat-list>
+                </ol>
             </div>
 
             <div class="right-side">
                 <div class="shuffled-elements-area">
                     <h3>Elementos embaralhados</h3>
-                    <mat-list>
+                    <ul mat-list>
                         @for(element of shuffledElements; track $index){
                         <mat-list-item>
                             <button mat-stroked-button (click)="addElementToFormedLine(element)">{{ element
                                 }}</button>
                         </mat-list-item>
                         }
-                    </mat-list>
+                    </ul>
                 </div>
 
                 <div class="new-line-area">
