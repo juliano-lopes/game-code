@@ -9,7 +9,22 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-home',
   imports: [ModuleListComponent, MatButtonModule, MatToolbarModule, CommonModule],
   templateUrl: './home.component.html',
-  styles: ``
+  styles: `
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Distribute space evenly */
+  padding: 0 16px; /* Add some padding to the sides */
+}
+
+.spacer {
+  flex: 1; /* Take up available space */
+}
+
+.user-info {
+  margin-right: 16px; /* Add spacing between the user info and the button */
+}
+  `
 })
 export class HomeComponent {
   constructor(protected authService: AuthService) { }

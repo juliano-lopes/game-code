@@ -1,8 +1,10 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="toolbar">
     <h1>Game Code App</h1>
+
     <span class="spacer"></span>
+
     @if(authService.user$ | async) {
-    <div>Olá, {{authService.user.email}}</div>
+    <div class="user-info">Olá, {{ (authService.user$ | async)?.email }}</div>
     }
 
     <div><button mat-button (click)="logout()">Sair do Sistema</button></div>
