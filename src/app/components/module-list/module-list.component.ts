@@ -20,7 +20,7 @@ export class ModuleListComponent implements OnInit {
   selectedModuleId: number | null = null;
   constructor(private dataService: DataService) { }
   ngOnInit(): void {
-    this.modules$ = this.dataService.modules.list('number', 'asc');
+    this.modules$ = this.dataService.modules.list();
     this.modules$.subscribe((modules) => this.modules = modules.sort((a, b) => a.number - b.number));
     this.modules$.subscribe((modules) => console.log("Modules: ", modules));
   }
