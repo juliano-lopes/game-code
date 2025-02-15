@@ -1,7 +1,7 @@
 import { Inject, inject, Injectable, InjectionToken } from '@angular/core';
 import { ICrudInterface } from '../types/icrud.interface';
-import { catchError, map, Observable } from 'rxjs';
-import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentReference, getDoc, query, setDoc, where } from '@firebase/firestore';
+import { catchError, map, Observable, of } from 'rxjs';
+import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentReference, getDoc, orderBy, OrderByDirection, query, setDoc, where } from '@firebase/firestore';
 import { collectionData, docData, Firestore } from '@angular/fire/firestore';
 import { FirebaseDocument } from '../types/firebase-document';
 
@@ -36,11 +36,12 @@ export class FirebaseService<T extends FirebaseDocument> implements ICrudInterfa
     return collectionData(q, { idField: 'id' }) as Observable<T[]>;
   }
 
-  list(): Observable<T[]> {
-    return collectionData(this.ref, { idField: 'id' }).pipe(
+  list(field: any = 'number', orderDirection: OrderByDirection = 'asc'): Observable<T[]> {
+    const q = query(this.ref, orderBy(field, orderDirection));
+    return collectionData(q, { idField: 'id' }).pipe(
       catchError(error => {
         console.error("Erro ao listar documentos:", error);
-        throw error; // Re-lança o erro para ser tratado por quem chama o método
+        return of([]);
       })
     ) as Observable<T[]>;
   }
