@@ -31,6 +31,11 @@ export class FirebaseService<T extends FirebaseDocument> implements ICrudInterfa
     );
   }
 
+  getByField(field: string, value: string): Observable<T[]> {
+    const q = query(this.ref, where(field, '==', value));
+    return collectionData(q, { idField: 'id' }) as Observable<T[]>;
+  }
+
   list(): Observable<T[]> {
     return collectionData(this.ref, { idField: 'id' }).pipe(
       catchError(error => {

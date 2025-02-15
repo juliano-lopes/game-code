@@ -1,6 +1,7 @@
-export interface Module {
-    id: string;
-    number: number;
-    name: string;
-    description: string;
-  }
+import { FirebaseDocument } from "./firebase-document";
+
+export interface Module extends FirebaseDocument {
+  number: number;
+  name: string;
+  description: string;
+}

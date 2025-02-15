@@ -29,7 +29,7 @@ export class ExerciseListComponent implements OnInit, AfterViewInit {
     //this.route.paramMap.subscribe(params => {
     //this.moduleId = params.get('moduleId');
     if (this.moduleId) {
-      this.exercises$ = this.dataService.getExercisesByModuleId(this.moduleId);
+      this.exercises$ = this.dataService.exercises.getByField('moduleId', this.moduleId);
       this.exercises$.subscribe((exercises) => {
         this.exercises = exercises.sort((a, b) => a.number - b.number);
       });
