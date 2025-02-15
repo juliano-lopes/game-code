@@ -4,12 +4,18 @@ import { Observable } from 'rxjs';
 import { Module } from '../types/module';
 import { Exercise } from '../types/exercise';
 import { orderBy, query } from '@firebase/firestore';
+import { FirebaseService } from './firebase.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  constructor(private firestore: Firestore) {}
+  modules: FirebaseService<Module>;
+  exercises: FirebaseService<Exercise>;
+  constructor(private firestore: Firestore) {
+    this.modules = new FirebaseService<Module>(this.firestore, "modules");
+    this.exercises = new FirebaseService<Exercise>(this.firestore, "exercises");
+  }
 
   getModules(): Observable<Module[]> {
     const modulesCollection = collection(this.firestore, 'modules');

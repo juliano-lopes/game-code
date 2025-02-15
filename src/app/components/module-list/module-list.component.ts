@@ -17,10 +17,10 @@ import { WelcomeComponent } from '../welcome/welcome.component';
 export class ModuleListComponent implements OnInit {
   modules$: Observable<Module[]> | undefined;
   modules: Module[] = [];
-  selectedModuleId: number| null = null;
+  selectedModuleId: number | null = null;
   constructor(private dataService: DataService) { }
   ngOnInit(): void {
-    this.modules$ = this.dataService.getModules();
+    this.modules$ = this.dataService.modules.list();
     this.modules$.subscribe((modules) => this.modules = modules);
     this.modules$.subscribe((modules) => console.log("Modules: ", modules));
   }
@@ -28,4 +28,3 @@ export class ModuleListComponent implements OnInit {
     this.selectedModuleId = moduleId;
   }
 }
-
