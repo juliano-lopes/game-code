@@ -29,7 +29,7 @@ export class ExerciseListComponent implements OnInit, AfterViewInit {
     //this.route.paramMap.subscribe(params => {
     //this.moduleId = params.get('moduleId');
     if (this.moduleId) {
-      this.exercises$ = this.dataService.exercises.getByField('moduleId', this.moduleId);
+      this.exercises$ = this.dataService.createDataObject<Exercise>("exercises").getByField('moduleId', this.moduleId);
       this.exercises$.subscribe((exercises) => {
         this.exercises = exercises.sort((a, b) => a.number - b.number);
       });
@@ -48,7 +48,7 @@ export class ExerciseListComponent implements OnInit, AfterViewInit {
     let id = this.selectedExercise ? this.selectedExercise.id : '';
     this.selectedExercise = undefined;
     setTimeout(() => {
-      let el = document.getElementById(id);
+      let el =id ?  document.getElementById(id) : null;
       el ? el.focus() : false;
     }, 500);
   }
