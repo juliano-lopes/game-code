@@ -36,9 +36,13 @@ export class FirebaseService<T extends FirebaseDocument> implements ICrudInterfa
     return collectionData(q, { idField: 'id' }) as Observable<T[]>;
   }
 
-  list(field: any = 'number', orderDirection: OrderByDirection = 'asc'): Observable<T[]> {
-    const q = query(this.ref, orderBy(field, orderDirection));
-    return collectionData(q, { idField: 'id' }).pipe(
+  list(field: any = '', orderDirection: OrderByDirection = 'asc'): Observable<T[]> {
+    let q;
+    if (field) {
+      q = query(this.ref, orderBy(field, orderDirection));
+    }
+
+    return collectionData(q ? q : this.ref, { idField: 'id' }).pipe(
       catchError(error => {
         console.error("Erro ao listar documentos:", error);
         return of([]);
