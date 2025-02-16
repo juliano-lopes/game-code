@@ -5,18 +5,17 @@ import { Module } from '../types/module';
 import { Exercise } from '../types/exercise';
 import { orderBy, query } from '@firebase/firestore';
 import { FirebaseService } from './firebase.service';
+import { FirebaseDocument } from '../types/firebase-document';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  modules: FirebaseService<Module>;
-  exercises: FirebaseService<Exercise>;
   constructor(private firestore: Firestore) {
-    this.modules = new FirebaseService<Module>(this.firestore, "modules");
-    this.exercises = new FirebaseService<Exercise>(this.firestore, "exercises");
   }
-
+  createDataObject<T extends FirebaseDocument>(collectionName: string) {
+    return new FirebaseService<T>(this.firestore, collectionName);
+  }
   getModules(): Observable<Module[]> {
     const modulesCollection = collection(this.firestore, 'modules');
     const modulesQuery = query(modulesCollection, orderBy("number"));
