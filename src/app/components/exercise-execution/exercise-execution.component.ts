@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { ResolutionService } from '../../services/resolution.service';
 @Component({
   selector: 'app-exercise-execution',
   imports: [MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule],
@@ -34,7 +35,7 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
 
   SEPARATOR = '@@';
 
-  constructor(private dataService: DataService, private route: ActivatedRoute, private sanitizer: DomSanitizer) { }
+  constructor(private dataService: DataService, private route: ActivatedRoute, private sanitizer: DomSanitizer, private resolution: ResolutionService) { }
 
   ngOnInit(): void {
     this.trustedExerciseStatement = this.sanitizer.bypassSecurityTrustHtml(this.exercise.statement);
@@ -97,7 +98,7 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
       } else {
         // Handle exercise completion
         this.isExerciseCompleted = true;
-        alert('Parabéns! Exercício concluído!');
+        this.exerciseCompletion();
       }
     } else {
       // Handle incorrect line
@@ -107,5 +108,17 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
   }
   onBackToExerciseListActivated() {
     this.backToExerciseList.emit();
+  }
+  async exerciseCompletion() {
+    try {
+      const resolution = await this.resolution.registerExerciseCompletion(this.exercise.id);
+      if (resolution) {
+        alert('Parabéns! Exercício concluído!');
+      } else {
+        alert("A resolução do exercício não pôde ser salva.");
+      }
+    } catch (error) {
+      alert("Exercício não registrado: " + error);
+    }
   }
 }
