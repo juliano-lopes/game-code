@@ -7,7 +7,14 @@
     <div>
         <button mat-raised-button color="primary" [id]="exercise.id" (click)="onSelectExercise(exercise)">
             <mat-icon>code</mat-icon> <!-- Add the icon -->
+            @if(exercise.id && resolutions.includes(exercise.id)) {
+            Resolvido Exercício {{exercise.number}}
+            }
+            @else {
             Abrir Exercício {{exercise.number}}
+            }
+
+
         </button>
     </div>
     }
