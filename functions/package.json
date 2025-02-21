@@ -1,5 +1,6 @@
 {
   "name": "functions",
+  "type": "module",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
@@ -18,7 +19,11 @@
     "cors": "^2.8.5",
     "firebase-admin": "^12.6.0",
     "firebase-functions": "^6.3.2",
-    "genkit-cli": "^0.9.12"
+    "genkit-cli": "^0.9.12",
+    "nodemailer": "^6.10.0"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.17"
+  }
 }

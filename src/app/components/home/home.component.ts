@@ -27,7 +27,10 @@ import { MatButtonModule } from '@angular/material/button';
   `
 })
 export class HomeComponent {
-  constructor(protected authService: AuthService) { }
+  constructor(protected authService: AuthService) {
+    //fetch("https://us-central1-game-code-482d3.cloudfunctions.net/sendEmail").then((data) => data.text()).then((data) => console.log("resposta sendEmail: ", data)).catch((error) => console.log("erro sendEmail: ", error));
+
+  }
   logout() {
     this.authService.logout();
   }
