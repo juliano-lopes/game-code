@@ -4,7 +4,7 @@
     <span class="spacer"></span>
 
     @if(authService.user$ | async) {
-    <div class="user-info">Olá, {{ (authService.user$ | async)?.email }}</div>
+    <div class="user-info">Olá, {{authService.user.displayName || authService.user.email}}</div>
     }
 
     <div><button mat-button (click)="logout()">Sair do Sistema</button></div>

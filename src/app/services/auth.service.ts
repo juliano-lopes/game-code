@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, User, user } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, User, user } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { doc, setDoc, Firestore } from '@angular/fire/firestore';
@@ -19,6 +19,15 @@ export class AuthService {
     this.user$.subscribe((user) => this.user = user);
   }
 
+  async loginWithGoogle() {
+    return signInWithPopup(this.auth, new GoogleAuthProvider())
+      .then((result) => {
+        console.log('You have been successfully logged in!');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   async login(email: string, password: string): Promise<void> {
     try {
       await signInWithEmailAndPassword(this.auth, email, password);

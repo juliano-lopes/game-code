@@ -38,4 +38,12 @@ export class LoginComponent implements OnInit {
       this.loginError = error;
     }
   }
+
+  async loginWithGoogle() {
+    try {
+      await this.authService.loginWithGoogle();
+    } catch (error) {
+      alert("Não foi possível entrar no sistema via conta Google");
+    }
+  }
 }
