@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModuleListComponent } from '../module-list/module-list.component';
 import { RouterOutlet } from '@angular/router';
@@ -26,10 +26,14 @@ import { MatButtonModule } from '@angular/material/button';
 }
   `
 })
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit {
+  @ViewChild('title') title!: ElementRef;
   constructor(protected authService: AuthService) {
     //fetch("https://us-central1-game-code-482d3.cloudfunctions.net/sendEmail").then((data) => data.text()).then((data) => console.log("resposta sendEmail: ", data)).catch((error) => console.log("erro sendEmail: ", error));
 
+  }
+  ngAfterViewInit(): void {
+    this.title.nativeElement.focus();
   }
   logout() {
     this.authService.logout();
