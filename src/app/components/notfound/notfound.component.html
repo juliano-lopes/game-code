@@ -1,0 +1,16 @@
+<mat-card>
+    <mat-card-title>
+        <h1 tabindex="-1" #title>Ops! Página não encontrada</h1>
+    </mat-card-title>
+    <mat-card-content>
+        <p>A página que está tentando acessar não existe.</p>
+    </mat-card-content>
+
+    <mat-card-actions align="end"> <!-- Added this section for success/error messages -->
+        <a mat-raised-button color="accent" [routerLink]="['/home']">
+            <mat-icon>arrow_back</mat-icon>
+            Ir para página inicial
+        </a>
+
+    </mat-card-actions>
+</mat-card>

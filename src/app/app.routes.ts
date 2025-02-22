@@ -5,6 +5,7 @@ import { AuthGuard } from './guards/auth.guard.service';
 import { ExerciseListComponent } from './components/exercise-list/exercise-list.component';
 import { HomeComponent } from './components/home/home.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
 
 //import { RegisterComponent } from './modules/auth/register/register.component';
 //import { ModuleListComponent } from './modules/modules/module-list/module-list.component';
@@ -22,6 +23,7 @@ export const routes: Routes = [
       { path: 'exercises/:moduleId', component: ExerciseListComponent, canActivate: [AuthGuard] }
     ]
 
-  }
+  },
+  { path: '**', component: NotfoundComponent }
 
 ];
