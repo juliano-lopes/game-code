@@ -40,6 +40,7 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.trustedExerciseStatement = this.sanitizer.bypassSecurityTrustHtml(this.exercise.statement);
     this.originalLines = this.cleanLine(this.exercise.instructions, '*hash*', '#').split('\n');
+    this.originalLines = this.originalLines.length > 1 ? this.originalLines : this.cleanLine(this.exercise.instructions, '*hash*', '#').split('*end*');
     this.shuffleLine();
 
   }
