@@ -15,10 +15,16 @@ body {
 }
 
 /* FlexBox CSS Classes */
-.container-flex {
+.container {
     display: flex;
     flex-direction: row;
     gap: 10px;
+}
+
+.container-column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .wrap {
@@ -28,6 +34,16 @@ body {
 .center {
     align-items: center;
     justify-content: center;
+}
+
+.align-row-around {
+    align-items: center;
+    justify-content: space-around;
+}
+
+.align-row-between {
+    align-items: center;
+    justify-content: space-between;
 }
 
 .width-full {

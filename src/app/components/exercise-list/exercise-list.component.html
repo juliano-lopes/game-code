@@ -1,27 +1,36 @@
-@if(!selectedExercise){
-<h2>{{title}}</h2>
+<mat-card class="container-column center">
+    @if(!selectedExercise){
+    <h2 mat-card-title>{{title}}</h2>
 
-@if((exercises$|async)){
-<div>
-    @for(exercise of exercises; track exercise.id){
-    <div>
-        <button mat-raised-button color="primary" [id]="exercise.id" (click)="onSelectExercise(exercise)">
-            <mat-icon>code</mat-icon> <!-- Add the icon -->
-            @if(exercise.id && resolutions.includes(exercise.id)) {
-            Resolvido Exercício {{exercise.number}}
-            }
-            @else {
-            Abrir Exercício {{exercise.number}}
-            }
+    @if((exercises$|async)){
+    <mat-card-content>
+        <div class="container-column center">
+            <mat-list>
+                @for(exercise of exercises; track exercise.id){
+                <mat-list-item>
 
-
-        </button>
-    </div>
+                    @if (exercise.id && resolutions.includes(exercise.id)) {
+                    <mat-icon>check_circle</mat-icon>
+                    <button class="m-10" mat-raised-button color="primary" [id]="exercise.id"
+                        (click)="onSelectExercise(exercise)">
+                        Resolvido Exercício {{exercise.number}}
+                    </button>
+                    } @else {
+                    <mat-icon>radio_button_unchecked</mat-icon>
+                    <button class="m-10" mat-raised-button color="primary" [id]="exercise.id"
+                        (click)="onSelectExercise(exercise)">
+                        Abrir Exercício {{exercise.number}}
+                    </button>
+                    }
+                </mat-list-item>
+                }
+                @empty { <mat-list>Nenhum exercício disponível.</mat-list> }
+            </mat-list>
+        </div>
+    </mat-card-content>
     }
-
-</div>
-}
-}
+    }
+</mat-card>
 @if(selectedExercise){
 <app-exercise-execution (backToExerciseList)="onBackToExerciseList()"
     [exercise]="selectedExercise"></app-exercise-execution>

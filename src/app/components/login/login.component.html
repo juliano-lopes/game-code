@@ -1,7 +1,13 @@
 <mat-card>
-  <h1 mat-card-title>Entrar no sistema</h1>
+  <mat-card-header class="container align-row-around">
+    <h1 mat-card-title>Entrar no sistema</h1>
+    <button mat-raised-button color="primary" (click)="loginWithGoogle()" type="button">
+      <mat-icon>account_circle</mat-icon>
+      Entrar com Google
+    </button>
+  </mat-card-header>
   <mat-card-content>
-    <button mat-raised-button color="primary" (click)="loginWithGoogle()" type="submit">Entrar com Google</button>
+
     <form>
       <mat-form-field appearance="outline">
         <mat-label>Informe seu e-mail:</mat-label>
@@ -21,7 +27,8 @@
     </form>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="onSubmit()" type="submit">Entrar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" type="submit"><mat-icon>login</mat-icon> Entrar no
+      sistema</button>
 
   </mat-card-actions>
 </mat-card>

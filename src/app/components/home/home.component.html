@@ -1,12 +1,13 @@
-<mat-toolbar color="primary" class="toolbar">
-    <h1 #title tabindex="-1">Game Code App</h1>
+<mat-toolbar color="primary">
+    <mat-toolbar-row class="align-row-around">
+        <h1 #title tabindex="-1">Game Code App</h1>
 
-    <span class="spacer"></span>
+        @if(authService.user$ | async) {
+        <div><mat-icon>person</mat-icon> Olá, {{authService.user.displayName || authService.user.email}}</div>
+        }
 
-    @if(authService.user$ | async) {
-    <div class="user-info">Olá, {{authService.user.displayName || authService.user.email}}</div>
-    }
-
-    <div><button mat-button (click)="logout()">Sair do Sistema</button></div>
+        <div><button mat-button color="warn" (click)="logout()"><mat-icon>logout</mat-icon> Sair do
+                Sistema</button></div>
+    </mat-toolbar-row>
 </mat-toolbar>
 <app-module-list></app-module-list>

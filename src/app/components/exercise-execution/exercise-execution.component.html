@@ -1,31 +1,19 @@
 @if(exercise){
-<mat-card class="exercise-card">
-    <mat-card-title>
-        <h2 tabindex="-1" #exerciseTitle>Exercício {{exercise.number}}</h2>
-    </mat-card-title>
-    <mat-card-content>
+<mat-card>
+    <mat-card-header class="container align-row-around">
+
+        <h2 mat-card-subtitle tabindex="-1" #exerciseTitle>Exercício {{exercise.number}}</h2>
 
         <button mat-raised-button color="accent" (click)="onBackToExerciseListActivated()">
             <mat-icon>arrow_back</mat-icon> Fechar exercício</button>
 
-        <div class="exercise-statement" [innerHTML]="trustedExerciseStatement"></div>
+    </mat-card-header>
+    <mat-card-content>
 
-        <div class="exercise-container">
-
-            <div class="formed-lines-area">
-                <h3>Linhas formadas:</h3>
-                <ol mat-list>
-                    @for(line of formedLinesCorrectly; track $index){
-                    <mat-list-item>{{ line }}</mat-list-item>
-                    }
-                    @empty {
-                    <mat-list-item>Nenhuma linha formada ainda...</mat-list-item>
-                    }
-                </ol>
-            </div>
-
-            <div class="right-side">
-                <div class="shuffled-elements-area">
+        <div id="container-exercise-execution-content" class="container">
+            <div class="item-60 container-column center" [innerHTML]="trustedExerciseStatement"></div>
+            <div id="area-line-formation" class="item-40 container-column center">
+                <div class="shuffled-elements-area container-column center">
                     <h3>Elementos embaralhados</h3>
                     <ul mat-list>
                         @for(element of shuffledElements; track $index){
@@ -34,53 +22,82 @@
                                 }}</button>
                         </mat-list-item>
                         }
+                        @empty {
+                        <mat-list-item>Todos os elementos foram adicionados.</mat-list-item>
+                        }
                     </ul>
                 </div>
 
-                <div class="new-line-area">
+                <div id="elements-added-area" class="container-column center">
                     @if(!isExerciseCompleted){
-                    <h3>Forme a linha {{currentLineIndex + 1}}</h3>
                     @if(formedLine){
-                    <mat-form-field appearance="outline" class="formed-line">
-                        <input matInput type="text" [value]="formedLine" readonly>
-                    </mat-form-field>
-                    }
-                    @else {<div>Ainda nenhum elemento foi adicionado para formar esta linha...</div>}
+                    <ul mat-list>
+                        <mat-list-item>{{formedLine}}</mat-list-item>
+                    </ul>
 
-                    <button mat-icon-button color="warn" (click)="removeElementFromFormedLine()"
-                        [disabled]="!formedLine"
-                        aria-label="Remover último elemento adicionado"><mat-icon>delete</mat-icon></button>
-
-                    <button mat-raised-button color="primary" (click)="confirmLine()" [disabled]="isConfirmDisabled">
-                        <mat-icon>check</mat-icon> Confirmar</button>
                     }
                     @else {
-                    <p>Parabéns por concluir este exercício com sucesso!</p>
-                    <button mat-raised-button color="accent" (click)="onBackToExerciseListActivated()">Voltar para Lista
-                        de exercícios</button>
+                    <ul mat-list>
+                        <mat-list-item>Nenhum elemento adicionado</mat-list-item>
+                    </ul>
                     }
+                    <div class="container align-row-between">
+                        <div><button mat-icon-button color="warn" (click)="removeElementFromFormedLine()"
+                                [disabled]="!formedLine"
+                                aria-label="Remover último elemento adicionado"><mat-icon>delete</mat-icon></button>
+                        </div>
+
+                        <div><button class="item" mat-raised-button color="primary" (click)="confirmLine()"
+                                [disabled]="isConfirmDisabled">
+                                <mat-icon>check</mat-icon> Confirmar</button></div>
+
+                    </div>
+                    }
+                    @else {
+                    <div class="container align-row-between">
+                        <div>
+                            <p>Parabéns por concluir este exercício com sucesso!</p>
+                        </div>
+                        <div><button mat-raised-button color="accent" (click)="onBackToExerciseListActivated()">Voltar
+                                para Lista de exercícios</button></div>
+
+                    </div>
+                    }
+                </div>
+
+                <div id="status-msg-area" class="container-column center">
+                    @if (showStatusMessage=="success"){
+                    <div role="alert" class="success-message">
+                        <mat-icon>check_circle</mat-icon> Linha {{currentLineIndex}} formada corretamente!
+                    </div>
+                    }
+                    @if(showStatusMessage=="fail"){
+                    <div role="alert" class="error-message">
+                        <mat-icon>error</mat-icon> Linha {{currentLineIndex + 1}} não formada corretamente. Remova os
+                        elementos e os coloquem na ordem correta.
+
+                    </div>
+
+                    }
+                </div>
+
+                <div id="formed-lines" class="container-column center">
+                    <h3>Linhas formadas:</h3>
+                    <ol mat-list>
+                        @for(line of formedLinesCorrectly; track $index){
+                        <mat-list-item>{{ line }}</mat-list-item>
+                        }
+                        @empty {
+                        <mat-list-item>Nenhuma linha formada ainda...</mat-list-item>
+                        }
+                    </ol>
                 </div>
 
             </div>
 
         </div>
+
     </mat-card-content>
 
-    <mat-card-actions align="end"> <!-- Added this section for success/error messages -->
-
-        @if (showStatusMessage=="success"){
-        <div role="alert" class="success-message">
-            <mat-icon>check_circle</mat-icon> Linha {{currentLineIndex}} formada corretamente!
-        </div>
-        }
-        @if(showStatusMessage=="fail"){
-        <div role="alert" class="error-message">
-            <mat-icon>error</mat-icon> Linha {{currentLineIndex + 1}} não formada corretamente. Remova os elementos e os
-            coloquem na ordem correta.
-
-        </div>
-
-        }
-    </mat-card-actions>
 </mat-card>
 }

@@ -10,9 +10,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ResolutionService } from '../../services/resolution.service';
 import { Resolution } from '../../types/resolution';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+
 @Component({
   selector: 'app-exercise-list',
-  imports: [CommonModule, ExerciseExecutionComponent, MatButtonModule, MatIconModule],
+  imports: [CommonModule, ExerciseExecutionComponent, MatButtonModule, MatIconModule, MatCardModule, MatListModule],
   templateUrl: './exercise-list.component.html',
   styleUrl: './exercise-list.component.css'
 })
