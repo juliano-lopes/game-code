@@ -49,7 +49,8 @@ export const helloWorld3 = onRequest({ cors: true }, (request, response) => {
 });
 
 export const completionRegistered = onDocumentWritten("resolution/{resolutionId}", async (event) => {
-
+  // disabilitando essa função por enquanto:
+  return false;
   try {
     // Dados do email
     const data = JSON.stringify(event.data?.after.data());
