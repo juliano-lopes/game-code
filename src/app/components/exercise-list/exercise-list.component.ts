@@ -21,7 +21,7 @@ import { MatListModule } from '@angular/material/list';
 })
 export class ExerciseListComponent implements OnInit, AfterViewInit {
   title!: string;
-  exercises$: Observable<Exercise[]> | undefined;
+  exercises$: Observable<Exercise[]> = new Observable<Exercise[]>();
   exercises: Exercise[] = [];
   @Input() moduleName!: string;
   @Input() moduleId: string | undefined = undefined;
@@ -43,10 +43,11 @@ export class ExerciseListComponent implements OnInit, AfterViewInit {
 
     }
     //});
-  }
-  ngAfterViewInit(): void {
     this.title = `Exercícios ${this.moduleName}`;
     document.title = `${this.title} - Game Code App`;
+
+  }
+  ngAfterViewInit(): void {
 
   }
 
