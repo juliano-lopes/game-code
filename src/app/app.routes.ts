@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { ModuleListComponent } from './components/module-list/module-list.component';
-import { AuthGuard } from './guards/auth.guard.service';
+import { AuthGuardService } from './guards/auth.guard.service';
 import { ExerciseListComponent } from './components/exercise-list/exercise-list.component';
 import { HomeComponent } from './components/home/home.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
@@ -17,10 +17,10 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   {
-    path: 'home', component: HomeComponent, canActivate: [AuthGuard],
+    path: 'home', component: HomeComponent, canActivate: [AuthGuardService],
     children: [
-      { path: '', component: WelcomeComponent, canActivate: [AuthGuard] },
-      { path: 'exercises/:moduleId', component: ExerciseListComponent, canActivate: [AuthGuard] }
+      { path: '', component: WelcomeComponent, canActivate: [AuthGuardService] },
+      { path: 'exercises/:moduleId', component: ExerciseListComponent, canActivate: [AuthGuardService] }
     ]
 
   },
