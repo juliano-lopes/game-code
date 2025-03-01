@@ -48,28 +48,31 @@ export const helloWorld3 = onRequest({ cors: true }, (request, response) => {
   response.status(200).send({ message: 'Olá, Mundo3!' });
 });
 
-export const completionRegistered = onDocumentWritten("resolution/{resolutionId}", async (event) => {
+export const completionRegistered = onDocumentWritten("resolutions/{resolutionId}", async (event) => {
   // disabilitando essa função por enquanto:
-  return false;
-  try {
-    // Dados do email
-    const data = JSON.stringify(event.data?.after.data());
-    const mailOptions = {
-      from: 'contato@julianolopes.com.br',
-      to: 'julopeson@gmail.com',
-      subject: 'Testando função firebase, documento ' + event.params.resolutionId,
-      text: 'Foi testado mesmo! ' + data
-    };
+  if (event.params.resolutionId == "abc") {
 
-    // Enviar email
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email enviado:', info.response);
-    return true;
+    try {
+      // Dados do email
+      const data = JSON.stringify(event.data?.after.data());
+      const mailOptions = {
+        from: 'contato@julianolopes.com.br',
+        to: 'julopeson@gmail.com',
+        subject: 'Testando função firebase, documento ' + event.params.resolutionId,
+        text: 'Foi testado mesmo! ' + data
+      };
 
-  } catch (error) {
-    console.error('Erro ao enviar email:', error);
-    return false;
+      // Enviar email
+      const info = await transporter.sendMail(mailOptions);
+      console.log('Email enviado:', info.response);
+      return true;
+
+    } catch (error) {
+      console.error('Erro ao enviar email:', error);
+      return false;
+    }
   }
+  return false;
 });
 
 export const enviarEmailWithGmail = onRequest({ cors: true }, async (req, res) => {
@@ -200,4 +203,5 @@ export const sendEmailGmail = async () => {
     const clientId = process.env.GMAIL_CLIENT_ID;
     return { message: 'Erro ao enviar email! ' + error + clientId, success: false };
   }
+
 };
