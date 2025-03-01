@@ -9,7 +9,8 @@
                 @for(exercise of exercises; track exercise.id){
                 <mat-list-item>
 
-                    @if (exercise.id && resolutions.includes(exercise.id)) {
+                    @if (exercise.id && moduleId && resolutions[moduleId] &&
+                    resolutions[moduleId].includes(exercise.id)) {
                     <mat-icon>check_circle</mat-icon>
                     <button class="m-10" mat-raised-button color="primary" [id]="exercise.id"
                         (click)="onSelectExercise(exercise)">

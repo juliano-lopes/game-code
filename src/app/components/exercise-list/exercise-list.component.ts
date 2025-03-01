@@ -26,7 +26,7 @@ export class ExerciseListComponent implements OnInit, AfterViewInit {
   @Input() moduleName!: string;
   @Input() moduleId: string | undefined = undefined;
   selectedExercise: Exercise | undefined;
-  resolutions: string[] = [];
+  resolutions: { [moduleId: string]: string[] } = {};
   constructor(private dataService: DataService, private route: ActivatedRoute, protected resolutionService: ResolutionService) { }
 
   async ngOnInit(): Promise<void> {

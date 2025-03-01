@@ -112,11 +112,19 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
   }
   async exerciseCompletion() {
     try {
-      const resolution = await this.resolution.registerExerciseCompletion(this.exercise.id);
-      if (resolution) {
+      const completedExercises = await this.resolution.getExercisesCompleted();
+      const exerciseId: string = this.exercise.id ? this.exercise.id : '';
+      if (exerciseId && completedExercises[this.exercise.moduleId] && completedExercises[this.exercise.moduleId].includes(exerciseId)) {
+        console.log("Exercício já completado");
         alert('Parabéns! Exercício concluído!');
       } else {
-        alert("A resolução do exercício não pôde ser salva.");
+        const resolution = await this.resolution.registerExerciseCompletion(this.exercise);
+        if (resolution) {
+          console.log("Exercício sendo completado 1X");
+          alert('Parabéns! Exercício concluído!');
+        } else {
+          alert("A resolução do exercício não pôde ser salva.");
+        }
       }
     } catch (error) {
       alert("Exercício não registrado: " + error);

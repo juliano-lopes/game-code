@@ -95,7 +95,7 @@ describe('ExerciseListComponent', () => {
     getByFieldSpy.and.returnValue(of(mockExercises));
     fixture.detectChanges();
     await fixture.whenStable();
-    
+
     // Act
     // Assert
     expect(component.moduleId).toBe(moduleId);
@@ -134,7 +134,7 @@ describe('ExerciseListComponent', () => {
   }));
 
 
-  it('should display the title correctly', async() => {
+  it('should display the title correctly', async () => {
     // Arrange
 
 
@@ -174,7 +174,9 @@ describe('ExerciseListComponent', () => {
   it('should display check icon for completed exercises', waitForAsync(async () => {
     // Arrange
     const mockExercises: Exercise[] = [exercise1, exercise2];
-    const completedExercises = ['2'];
+    const completedExercises: { [moduleId: string]: string[] } = {};
+    completedExercises[moduleId] = [];
+    completedExercises[moduleId].push('2');
     getByFieldSpy.and.returnValue(of(mockExercises));
     resolutionService.getExercisesCompleted.and.returnValue(Promise.resolve(completedExercises));
     // Act
