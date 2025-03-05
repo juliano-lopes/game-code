@@ -1,0 +1,35 @@
+<section id="instruction-area" *ngIf="!showConfirmationArea && !showScoreArea">
+    <h2 #questionTitle tabindex="-1">Perguntas e respostas</h2>
+    <p>
+        Para praticar o que foi abordado até aqui, responda às perguntas marcando a alternativa que você acha mais
+        adequada e ative o botão "Confirmar resposta". Após isso uma mensagem será exibida com a informação sobre a
+        resposta e um botão disponibilizado para que você vá para próxima pergunta.
+    </p>
+</section>
+<section *ngIf="!showConfirmationArea && !showScoreArea">
+    <h2 id="question-title" #questionTitle tabindex="-1">Pergunta {{multipleChoiceService.currentQuestion +1}} de
+        {{multipleChoiceService.questions.length}}</h2>
+    <progress id="progress" [value]="getProgressBarPercentage()" max="100"></progress>
+    <form>
+        <fieldset id="question-body" required>
+            <legend [innerHTML]="currentQuestionData.question"></legend>
+            <div *ngFor="let option of currentQuestionData.answers; let i=index">
+                <input type="radio" name="options" [id]="'opt-'+i" [value]="i" aria-required="true"
+                    (change)="onRadioChange()">
+                <label [for]="'opt-'+i" [innerHTML]="option"></label>
+            </div>
+        </fieldset>
+        <button id="btn-confirm" (click)="checkAnswer()" [disabled]="isConfirmDisabled">Confirmar resposta</button>
+    </form>
+</section>
+<section *ngIf="showConfirmationArea">
+    <h3 id="confirmation-title" tabindex="-1">{{confirmationTitle}}</h3>
+
+    <p id="confirmation-text" [innerHTML]="confirmationText"></p>
+    <button id="btn-next-question" (click)="nextQuestion()">Próxima pergunta</button>
+</section>
+<section id="score-area" *ngIf="showScoreArea">
+    <h2 id="score-title" tabindex="-1">{{scoreTitle}}</h2>
+    <p id="score-text" [innerHTML]="scoreText"></p>
+
+</section>
