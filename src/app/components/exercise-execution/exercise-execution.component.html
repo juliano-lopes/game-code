@@ -54,12 +54,21 @@
                     </div>
                     }
                     @else {
-                    <div class="container align-row-between">
+                    <div class="container-column center">
                         <div>
                             <p>Parabéns por concluir este exercício com sucesso!</p>
                         </div>
-                        <div><button mat-raised-button color="accent" (click)="onBackToExerciseListActivated()">Voltar
-                                para Lista de exercícios</button></div>
+                        <div class="container align-row-around">
+                            <div><button mat-raised-button color="accent" (click)="onBackToExerciseListActivated()">
+                                    <mat-icon>arrow_back</mat-icon>
+                                    Voltar para Lista de exercícios</button></div>
+                            @if(isNextExerciseAvailable){
+                            <div><button mat-raised-button color="accent" (click)="emitNextExercise()">
+                                    <mat-icon>arrow_forward</mat-icon>
+                                    Próximo exercício</button></div>
+
+                            }
+                        </div>
 
                     </div>
                     }

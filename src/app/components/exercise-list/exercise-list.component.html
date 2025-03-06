@@ -33,7 +33,8 @@
     }
 </mat-card>
 @if(selectedExercise){
-<app-exercise-execution (backToExerciseList)="onBackToExerciseList()"
+<app-exercise-execution [isNextExerciseAvailable]="getNextExerciseIndex(selectedExercise.id) > 0"
+    (nextExercise)="onNextExercise($event)" (backToExerciseList)="onBackToExerciseList()"
     [exercise]="selectedExercise"></app-exercise-execution>
 
 }

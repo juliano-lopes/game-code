@@ -62,4 +62,23 @@ export class ExerciseListComponent implements OnInit, AfterViewInit {
       el ? el.focus() : false;
     }, 500);
   }
+  onNextExercise(currentExerciseId: string) {
+    const nextExerciseIndex = this.getNextExerciseIndex(currentExerciseId);
+    if (nextExerciseIndex) {
+      this.selectedExercise = this.exercises[nextExerciseIndex];
+      console.log("next vai ser: ", nextExerciseIndex);
+    } else {
+      // Caso seja o ultimo exercicio, você pode decidir o que fazer.
+      console.log('Último exercício.');
+      //pode deixar o selectedExercise como null, ou mostrar uma mensagem.
+      this.selectedExercise = undefined;
+    }
+  }
+  getNextExerciseIndex(currentExerciseId: string | undefined): number {
+    const currentIndex = this.exercises.findIndex(exercise => exercise.id === currentExerciseId);
+    if (currentIndex < this.exercises.length - 1) {
+      return currentIndex + 1;
+    }
+    return 0;
+  }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Exercise } from '../../types/exercise';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,9 +17,11 @@ import { ResolutionService } from '../../services/resolution.service';
   templateUrl: './exercise-execution.component.html',
   styleUrl: './exercise-execution.component.css'
 })
-export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
+export class ExerciseExecutionComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('exerciseTitle') exerciseTitle!: ElementRef;
   @Input() exercise!: Exercise;
+  @Input() isNextExerciseAvailable: boolean = false;
+  @Output() nextExercise = new EventEmitter();
   trustedExerciseStatement: any;
   @Output() backToExerciseList = new EventEmitter();
   originalLines: string[] = [];
@@ -36,7 +38,20 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
   SEPARATOR = '@@';
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private sanitizer: DomSanitizer, private resolution: ResolutionService) { }
-
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['exercise']) {
+      this.currentLineIndex = 0;
+      this.isExerciseCompleted = false;
+      this.trustedExerciseStatement = this.sanitizer.bypassSecurityTrustHtml(this.exercise.statement);
+      this.originalLines = this.cleanLine(this.exercise.instructions, '*hash*', '#').split('\n');
+      this.originalLines = this.originalLines.length > 1 ? this.originalLines : this.cleanLine(this.exercise.instructions, '*hash*', '#').split('*end*');
+      this.shuffleLine();
+      this.formedLinesCorrectly = [];
+      this.isConfirmDisabled = true;
+      this.showStatusMessage = '';
+      this.exercise ? this.exerciseTitle.nativeElement.focus() : false;
+    }
+  }
   ngOnInit(): void {
     this.trustedExerciseStatement = this.sanitizer.bypassSecurityTrustHtml(this.exercise.statement);
     this.originalLines = this.cleanLine(this.exercise.instructions, '*hash*', '#').split('\n');
@@ -46,7 +61,7 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.exerciseTitle.nativeElement.focus();
+    this.exercise ? this.exerciseTitle.nativeElement.focus() : false;
   }
 
 
@@ -76,7 +91,9 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
 
   isFormedLineCorrect(): boolean {
     const originalLine = this.cleanLine(this.originalLines[this.currentLineIndex], this.SEPARATOR, '');
+    console.log("original line: ", originalLine, "; formed line: ", this.formedLine)
     return this.formedLine === originalLine;
+
   }
 
   cleanLine(originalLine: string, from: string, to: string): string {
@@ -129,5 +146,8 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit {
     } catch (error) {
       alert("Exercício não registrado: " + error);
     }
+  }
+  emitNextExercise() {
+    this.nextExercise.emit(this.exercise.id);
   }
 }
