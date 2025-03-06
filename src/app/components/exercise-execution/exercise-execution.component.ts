@@ -155,12 +155,11 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit, OnChan
   }
   handleFocusOnShuffledElements(shuffledElements: string[], lastRemovedElementIndex: number) {
     if (shuffledElements.length > 0) {
-      const index = lastRemovedElementIndex < shuffledElements.length ? lastRemovedElementIndex : lastRemovedElementIndex - 1;
-      const btnShuffledElement: HTMLElement | null = document.querySelector(`#shuffled-element-${index}`);
-      btnShuffledElement ? btnShuffledElement.focus() : false;
-    } else {
-      const emptyShuffledElementList: HTMLElement | null = document.querySelector(`#empty-shuffled-element-list`);
-      emptyShuffledElementList ? emptyShuffledElementList.focus() : false;
+      if (lastRemovedElementIndex == shuffledElements.length) {
+        const index = lastRemovedElementIndex - 1;
+        const btnShuffledElement: HTMLElement | null = document.querySelector(`#shuffled-element-${index}`);
+        btnShuffledElement ? btnShuffledElement.focus() : false;
+      }
     }
   }
 }
