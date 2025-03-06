@@ -16,14 +16,16 @@
                 <div class="shuffled-elements-area container-column center">
                     <h3>Elementos embaralhados</h3>
                     <ul mat-list>
-                        @for(element of shuffledElements; track $index){
+                        @for(element of shuffledElements; track $index; let i = $index){
                         <mat-list-item>
-                            <button mat-stroked-button (click)="addElementToFormedLine(element)">{{ element
+                            <button [id]="'shuffled-element-' + i" mat-stroked-button
+                                (click)="addElementToFormedLine(element)">{{ element
                                 }}</button>
                         </mat-list-item>
                         }
                         @empty {
-                        <mat-list-item>Todos os elementos foram adicionados.</mat-list-item>
+                        <mat-list-item tabindex="-1" id="empty-shuffled-element-list">Todos os elementos foram
+                            adicionados.</mat-list-item>
                         }
                     </ul>
                 </div>

@@ -75,10 +75,11 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit, OnChan
   addElementToFormedLine(element: string): void {
     this.elementsToFormLine.push(element);
     this.formedLine = this.elementsToFormLine.join('');
-
-    this.shuffledElements = this.shuffledElements.filter((el, index, array) => index != array.indexOf(element));
+    const lastRemovedElementIndex = this.shuffledElements.indexOf(element);
+    this.shuffledElements = this.shuffledElements.filter((el, index, array) => index != lastRemovedElementIndex);
     this.isConfirmDisabled = this.shuffledElements.length > 0;
     this.showStatusMessage = '';
+    this.handleFocusOnShuffledElements(this.shuffledElements, lastRemovedElementIndex);
   }
 
   removeElementFromFormedLine(): void {
@@ -151,5 +152,15 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit, OnChan
   }
   emitNextExercise() {
     this.nextExercise.emit(this.exercise.id);
+  }
+  handleFocusOnShuffledElements(shuffledElements: string[], lastRemovedElementIndex: number) {
+    if (shuffledElements.length > 0) {
+      const index = lastRemovedElementIndex < shuffledElements.length ? lastRemovedElementIndex : lastRemovedElementIndex - 1;
+      const btnShuffledElement: HTMLElement | null = document.querySelector(`#shuffled-element-${index}`);
+      btnShuffledElement ? btnShuffledElement.focus() : false;
+    } else {
+      const emptyShuffledElementList: HTMLElement | null = document.querySelector(`#empty-shuffled-element-list`);
+      emptyShuffledElementList ? emptyShuffledElementList.focus() : false;
+    }
   }
 }
