@@ -33,8 +33,16 @@
     }
 </mat-card>
 @if(selectedExercise){
+@if (selectedExercise.type && selectedExercise.type=="multiple-choice") {
+<app-multiple-choice-exercise [isNextExerciseAvailable]="getNextExerciseIndex(selectedExercise.id) > 0"
+    (nextExercise)="onNextExercise($event)" (backToExerciseList)="onBackToExerciseList()"
+    [exercise]="selectedExercise"></app-multiple-choice-exercise>
+
+}
+@else {
 <app-exercise-execution [isNextExerciseAvailable]="getNextExerciseIndex(selectedExercise.id) > 0"
     (nextExercise)="onNextExercise($event)" (backToExerciseList)="onBackToExerciseList()"
     [exercise]="selectedExercise"></app-exercise-execution>
+}
 
 }

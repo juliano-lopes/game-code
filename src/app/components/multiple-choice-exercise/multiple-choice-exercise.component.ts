@@ -1,19 +1,24 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MultipleChoiceExerciseService } from '../../services/multiple-choice-exercise.service';
 import { MultipleChoiceQuestion } from '../../types/exercise';
 import { ResolutionService } from '../../services/resolution.service';
 import { Exercise } from '../../types/exercise';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-multiple-choice-exercise',
   templateUrl: './multiple-choice-exercise.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule],
   styleUrls: ['./multiple-choice-exercise.component.css'],
 })
-export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit {
+export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('questionTitle') questionTitle!: ElementRef;
   @Input() exercise!: Exercise;
-  currentQuestionData!: MultipleChoiceQuestion;
+  @Input() isNextExerciseAvailable: boolean = false;
+  @Output() nextExercise = new EventEmitter();
+  @Output() backToExerciseList = new EventEmitter();
+  currentQuestionData!: MultipleChoiceQuestion | undefined;
   isConfirmDisabled: boolean = true;
   showConfirmationArea: boolean = false;
   confirmationTitle: string = '';
@@ -29,13 +34,25 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.currentQuestionData =
-      this.multipleChoiceService.questions[
-      this.multipleChoiceService.currentQuestion
-      ];
+    this.currentQuestionData = this.exercise && this.exercise.questions ? this.exercise.questions[0] : undefined;
   }
   ngAfterViewInit(): void {
-    this.questionTitle.nativeElement.focus();
+    this.questionTitle ? this.questionTitle.nativeElement.focus() : false;
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['exercise']) {
+      console.log("mudança no exercício");
+      this.currentQuestionData = this.exercise && this.exercise.questions ? this.exercise.questions[0] : undefined;
+      this.isConfirmDisabled = true;
+      this.showConfirmationArea = false;
+      this.confirmationTitle = '';
+      this.confirmationText = '';
+      this.showScoreArea = false;
+      this.scoreTitle = '';
+      this.scoreText = '';
+      this.percentage = 0;
+      this.questionTitle ? this.questionTitle.nativeElement.focus() : false;
+    }
   }
 
   onRadioChange(): void {
@@ -43,6 +60,7 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit {
   }
 
   checkAnswer(): void {
+
     this.isConfirmDisabled = true;
     const options = Array.from(
       document.querySelectorAll('input[name="options"]')
@@ -51,12 +69,14 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit {
       (option) =>
         option instanceof HTMLInputElement &&
         option.checked &&
+        this.currentQuestionData &&
         parseInt(option.value) === this.currentQuestionData.answer
     ).length > 0;
 
     this.multipleChoiceService.setScore(userAnswer);
     const status = this.getStatus(userAnswer);
     this.showConfirmation(status, this.currentQuestionData);
+
   }
 
   getStatus(userAnswer: boolean): string {
@@ -87,14 +107,14 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit {
     return status;
   }
 
-  showConfirmation(status: string, question: MultipleChoiceQuestion): void {
+  showConfirmation(status: string, question: MultipleChoiceQuestion | undefined): void {
     switch (status) {
       case 'success':
         this.confirmationText = 'Muito bem, continue assim.';
         this.confirmationTitle = 'Parabéns, resposta certa!';
         break;
       case 'error':
-        this.confirmationText = 'não foi dessa vez. ' + question.explain;
+        this.confirmationText = 'não foi dessa vez. ' + question?.explain;
         this.confirmationTitle = 'Resposta incorreta...';
         break;
       case 'final-success':
@@ -103,7 +123,7 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit {
         this.confirmationTitle = 'Parabéns, você fechou com chave de ouro!';
         break;
       case 'final-error':
-        this.confirmationText = 'não foi dessa vez. ' + question.explain;
+        this.confirmationText = 'não foi dessa vez. ' + question?.explain;
         this.confirmationTitle = 'Resposta incorreta...';
         break;
     }
@@ -115,10 +135,11 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit {
       if (confirmationTitleElement) {
         confirmationTitleElement.focus();
       }
-    }, 0);
+    }, 90);
   }
 
   nextQuestion(): void {
+    /*
     if (
       this.multipleChoiceService.currentQuestion + 1 <
       this.multipleChoiceService.questions.length
@@ -134,8 +155,20 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit {
       this.showConfirmationArea = false;
       this.showScore();
     }
+
+    */
   }
+  emitNextExercise() {
+    this.nextExercise.emit(this.exercise.id);
+  }
+  onBackToExerciseListActivated() {
+    this.backToExerciseList.emit();
+  }
+
+
+
   async showScore() {
+    /*
     this.showScoreArea = true;
     this.scoreTitle = 'Verifique sua pontuação';
     this.percentage = Math.floor(
@@ -157,16 +190,22 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit {
       }
     }, 0);
     this.exerciseCompletion();
+    */
+
   }
 
   getProgressBarPercentage(): number {
+    return 0;
+    /*
     return Math.floor(
       ((this.multipleChoiceService.currentQuestion + 1) * 100) /
       this.multipleChoiceService.questions.length
     );
+    */
   }
 
   async exerciseCompletion() {
+    /*
     try {
       const completedExercises = await this.resolution.getExercisesCompleted();
       const exerciseId: string = this.exercise.id ? this.exercise.id : '';
@@ -191,5 +230,6 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit {
     } catch (error) {
       alert('Exercício não registrado: ' + error);
     }
+      */
   }
 }
