@@ -117,12 +117,14 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit, OnChan
         // Handle exercise completion
         this.isExerciseCompleted = true;
         this.exerciseCompletion();
+        setTimeout(() => this.showStatusMessage = '', 2000);
       }
     } else {
       // Handle incorrect line
       this.showStatusMessage = "fail";
       //alert('Incorrect! Try again.');
     }
+
   }
   onBackToExerciseListActivated() {
     this.backToExerciseList.emit();
@@ -133,12 +135,12 @@ export class ExerciseExecutionComponent implements OnInit, AfterViewInit, OnChan
       const exerciseId: string = this.exercise.id ? this.exercise.id : '';
       if (exerciseId && completedExercises[this.exercise.moduleId] && completedExercises[this.exercise.moduleId].includes(exerciseId)) {
         console.log("Exercício já completado");
-        alert('Parabéns! Exercício concluído!');
+        //alert('Parabéns! Exercício concluído!');
       } else {
         const resolution = await this.resolution.registerExerciseCompletion(this.exercise);
         if (resolution) {
           console.log("Exercício sendo completado 1X");
-          alert('Parabéns! Exercício concluído!');
+          //alert('Parabéns! Exercício concluído!');
         } else {
           alert("A resolução do exercício não pôde ser salva.");
         }

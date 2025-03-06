@@ -80,7 +80,7 @@
                         <mat-icon>check_circle</mat-icon> Linha {{currentLineIndex}} formada corretamente!
                     </div>
                     }
-                    @if(showStatusMessage=="fail"){
+                    @else if(showStatusMessage=="fail"){
                     <div role="alert" class="error-message">
                         <mat-icon>error</mat-icon> Linha {{currentLineIndex + 1}} não formada corretamente. Remova os
                         elementos e os coloquem na ordem correta.
@@ -88,6 +88,7 @@
                     </div>
 
                     }
+                    @else {<div></div>}
                 </div>
 
                 <div id="formed-lines" class="container-column center">
