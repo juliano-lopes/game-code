@@ -28,7 +28,7 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit, O
   confirmationText: string = '';
   selectedOption: string = '';
   constructor(
-    private resolution: ResolutionService
+    private resolutionService: ResolutionService
   ) { }
 
   ngOnInit(): void {
@@ -62,6 +62,7 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit, O
     console.log("selected option ", this.selectedOption, "; real answer: ", this.currentQuestionData?.answer, "; resultado = ", userAnswer);
     const status = this.getStatus(userAnswer);
     this.showConfirmation(status, this.currentQuestionData);
+    userAnswer ? this.exerciseCompletion() : false;
 
   }
 
@@ -109,9 +110,9 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit, O
 
 
   async exerciseCompletion() {
-    /*
+
     try {
-      const completedExercises = await this.resolution.getExercisesCompleted();
+      const completedExercises = await this.resolutionService.getExercisesCompleted();
       const exerciseId: string = this.exercise.id ? this.exercise.id : '';
       if (
         exerciseId &&
@@ -119,21 +120,21 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit, O
         completedExercises[this.exercise.moduleId].includes(exerciseId)
       ) {
         console.log('Exercício já completado');
-        alert('Parabéns! Exercício concluído!');
+        //alert('Parabéns! Exercício concluído!');
       } else {
-        const resolution = await this.resolution.registerExerciseCompletion(
+        const resolution = await this.resolutionService.registerExerciseCompletion(
           this.exercise
         );
         if (resolution) {
           console.log('Exercício sendo completado 1X');
-          alert('Parabéns! Exercício concluído!');
+          //alert('Parabéns! Exercício concluído!');
         } else {
           alert('A resolução do exercício não pôde ser salva.');
         }
       }
     } catch (error) {
-      alert('Exercício não registrado: ' + error);
+      alert('Resolução do exercício não registrada: ' + error);
     }
-      */
+
   }
 }
