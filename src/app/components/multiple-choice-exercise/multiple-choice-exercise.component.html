@@ -1,48 +1,86 @@
-<section id="instruction-area">
-    <h2 #questionTitle tabindex="-1">Perguntas e respostas</h2>
-    <p>
-        Para praticar o que foi abordado até aqui, responda à pergunta marcando a alternativa que você acha mais
-        adequada e ative o botão "Confirmar resposta". Após isso uma mensagem será exibida com a informação sobre a
-        resposta e um botão disponibilizado para que você vá para próxima pergunta.
-    </p>
-</section>
-@if(currentQuestionData){
-<section *ngIf="!showConfirmationArea && !showScoreArea">
-    <h3 id="question-title" #questionTitle tabindex="-1">Pergunta {{exercise.number}}</h3>
-    <progress id="progress" [value]="getProgressBarPercentage()" max="100"></progress>
+@if(exercise){
+<mat-card>
+    <mat-card-header class="container align-row-around">
 
-    <fieldset id="question-body" required>
-        <legend [innerHTML]="currentQuestionData.question"></legend>
-        @for(option of currentQuestionData.answers; track $index; let i= $index){
-        <div>
-            <input type="radio" name="options" [id]="'opt-'+i" [value]="i" aria-required="true"
-                (change)="onRadioChange()">
-            <label [for]="'opt-'+i" [innerHTML]="option"></label>
+        <h2 mat-card-subtitle tabindex="-1" #exerciseTitle>Exercício {{exercise.number}}</h2>
+
+        <button mat-raised-button color="accent" (click)="onBackToExerciseListActivated()">
+            <mat-icon>arrow_back</mat-icon> Fechar exercício</button>
+
+    </mat-card-header>
+    <mat-card-content>
+
+        <div id="container-exercise-execution-content" class="container">
+            <div class="item-60 container-column center">
+                <p>
+                    Para praticar o que foi abordado até aqui, responda à pergunta marcando a alternativa que você acha
+                    mais
+                    adequada e ative o botão "Confirmar resposta". Após isso uma mensagem será exibida com a informação
+                    sobre a
+                    resposta e um botão disponibilizado para que você vá para próxima pergunta.
+                </p>
+
+            </div>
+            <div id="area-line-formation" class="item-40 container-column center">
+                <mat-card>
+                    <mat-card-header>
+                        <h3 mat-card-title>Pergunta de múltipla escolha</h3>
+                        <mat-card-subtitle [innerHTML]="currentQuestionData?.question"
+                            id="question-statement"></mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-radio-group aria-labelledby="question-statement" [value]="selectedOption" (change)="onRadioChange($event)">
+                            @for(option of currentQuestionData?.answers; track $index; let i = $index) {
+                            <div>
+                                <mat-radio-button [value]="i" [id]="'opt-'+i">
+                                    <span [innerHTML]="option"></span>
+                                </mat-radio-button>
+                            </div>
+                            }
+                        </mat-radio-group>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <div class="container center">
+                            <button id="btn-confirm" mat-raised-button color="primary" (click)="checkAnswer()"
+                                [disabled]="isConfirmDisabled">
+                                Confirmar resposta
+                            </button>
+                        </div>
+                    </mat-card-actions>
+                </mat-card>
+                @if(showConfirmationArea){
+                <div id="confirmation-area" class="container-column center">
+                    <mat-card>
+                        <mat-card-header>
+                            <h3 mat-card-subtitle id="confirmation-title" tabindex="-1">{{confirmationTitle}}</h3>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p id="confirmation-text" [innerHTML]="confirmationText"></p>
+
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <div class="container align-row-around">
+                                <div><button mat-raised-button color="accent" (click)="onBackToExerciseListActivated()">
+                                        <mat-icon>arrow_back</mat-icon>
+                                        Voltar para Lista de exercícios</button></div>
+                                @if(isNextExerciseAvailable){
+                                <div><button mat-raised-button color="accent" (click)="emitNextExercise()">
+                                        <mat-icon>arrow_forward</mat-icon>
+                                        Próximo exercício</button></div>
+
+                                }
+                            </div>
+                        </mat-card-actions>
+                    </mat-card>
+
+                </div>
+                }
+
+            </div>
+
         </div>
-        }
-    </fieldset>
-    <button id="btn-confirm" (click)="checkAnswer()" [disabled]="isConfirmDisabled">Confirmar resposta</button>
 
-</section>
-<section *ngIf="showConfirmationArea">
-    <h3 id="confirmation-title" tabindex="-1">{{confirmationTitle}}</h3>
+    </mat-card-content>
 
-    <p id="confirmation-text" [innerHTML]="confirmationText"></p>
-    <div><button mat-raised-button color="accent" (click)="onBackToExerciseListActivated()">
-            <mat-icon>arrow_back</mat-icon>
-            Voltar para Lista de exercícios</button></div>
-    @if(isNextExerciseAvailable){
-    <div><button mat-raised-button color="accent" (click)="emitNextExercise()">
-            <mat-icon>arrow_forward</mat-icon>
-            Próximo exercício</button></div>
-
-    }
-
-
-</section>
-<section id="score-area" *ngIf="showScoreArea">
-    <h2 id="score-title" tabindex="-1">{{scoreTitle}}</h2>
-    <p id="score-text" [innerHTML]="scoreText"></p>
-
-</section>
+</mat-card>
 }

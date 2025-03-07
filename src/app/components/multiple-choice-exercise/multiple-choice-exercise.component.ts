@@ -6,14 +6,17 @@ import { Exercise } from '../../types/exercise';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+
 @Component({
   selector: 'app-multiple-choice-exercise',
   templateUrl: './multiple-choice-exercise.component.html',
-  imports: [CommonModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatCardModule, MatRadioModule],
   styleUrls: ['./multiple-choice-exercise.component.css'],
 })
 export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit, OnChanges {
-  @ViewChild('questionTitle') questionTitle!: ElementRef;
+  @ViewChild('exerciseTitle') questionTitle!: ElementRef;
   @Input() exercise!: Exercise;
   @Input() isNextExerciseAvailable: boolean = false;
   @Output() nextExercise = new EventEmitter();
@@ -23,13 +26,8 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit, O
   showConfirmationArea: boolean = false;
   confirmationTitle: string = '';
   confirmationText: string = '';
-  showScoreArea: boolean = false;
-  scoreTitle: string = '';
-  scoreText: string = '';
-  percentage: number = 0;
-
+  selectedOption: string = '';
   constructor(
-    public multipleChoiceService: MultipleChoiceExerciseService,
     private resolution: ResolutionService
   ) { }
 
@@ -47,64 +45,28 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit, O
       this.showConfirmationArea = false;
       this.confirmationTitle = '';
       this.confirmationText = '';
-      this.showScoreArea = false;
-      this.scoreTitle = '';
-      this.scoreText = '';
-      this.percentage = 0;
       this.questionTitle ? this.questionTitle.nativeElement.focus() : false;
+      this.selectedOption = '';
     }
   }
 
-  onRadioChange(): void {
-    this.isConfirmDisabled = false;
+  onRadioChange(event: any): void {
+    this.selectedOption = event.value;
+    this.isConfirmDisabled = this.showConfirmationArea ? true : false;
   }
 
   checkAnswer(): void {
 
     this.isConfirmDisabled = true;
-    const options = Array.from(
-      document.querySelectorAll('input[name="options"]')
-    );
-    const userAnswer = options.filter(
-      (option) =>
-        option instanceof HTMLInputElement &&
-        option.checked &&
-        this.currentQuestionData &&
-        parseInt(option.value) === this.currentQuestionData.answer
-    ).length > 0;
-
-    this.multipleChoiceService.setScore(userAnswer);
+    const userAnswer = parseInt(this.selectedOption) === this.currentQuestionData?.answer;
+    console.log("selected option ", this.selectedOption, "; real answer: ", this.currentQuestionData?.answer, "; resultado = ", userAnswer);
     const status = this.getStatus(userAnswer);
     this.showConfirmation(status, this.currentQuestionData);
 
   }
 
   getStatus(userAnswer: boolean): string {
-    let status;
-    if (
-      userAnswer &&
-      this.multipleChoiceService.currentQuestion + 1 <
-      this.multipleChoiceService.questions.length
-    ) {
-      status = 'success';
-    } else if (
-      !userAnswer &&
-      this.multipleChoiceService.currentQuestion + 1 <
-      this.multipleChoiceService.questions.length
-    ) {
-      status = 'error';
-    } else if (
-      userAnswer &&
-      !(
-        this.multipleChoiceService.currentQuestion + 1 <
-        this.multipleChoiceService.questions.length
-      )
-    ) {
-      status = 'final-success';
-    } else {
-      status = 'final-error';
-    }
-    return status;
+    return userAnswer ? 'success' : 'error';
   }
 
   showConfirmation(status: string, question: MultipleChoiceQuestion | undefined): void {
@@ -138,26 +100,6 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit, O
     }, 90);
   }
 
-  nextQuestion(): void {
-    /*
-    if (
-      this.multipleChoiceService.currentQuestion + 1 <
-      this.multipleChoiceService.questions.length
-    ) {
-      this.multipleChoiceService.currentQuestion++;
-      this.currentQuestionData =
-        this.multipleChoiceService.questions[
-        this.multipleChoiceService.currentQuestion
-        ];
-      this.showConfirmationArea = false;
-      this.isConfirmDisabled = true;
-    } else {
-      this.showConfirmationArea = false;
-      this.showScore();
-    }
-
-    */
-  }
   emitNextExercise() {
     this.nextExercise.emit(this.exercise.id);
   }
@@ -165,44 +107,6 @@ export class MultipleChoiceExerciseComponent implements OnInit, AfterViewInit, O
     this.backToExerciseList.emit();
   }
 
-
-
-  async showScore() {
-    /*
-    this.showScoreArea = true;
-    this.scoreTitle = 'Verifique sua pontuação';
-    this.percentage = Math.floor(
-      (this.multipleChoiceService.score * 100) /
-      this.multipleChoiceService.questions.length
-    );
-    this.scoreText =
-      this.percentage >= 70
-        ? 'Você acertou ' +
-        this.percentage +
-        '% das questões, continue desenvolvendo!'
-        : 'Você acertou ' +
-        this.percentage +
-        '% das questões. Um acerto acima de 70% seria mais interessante para que o conhecimento seja consolidado. Revise o material e procure entender qual conteúdo não foi totalmente absorvido e faça o exercício novamente.';
-    setTimeout(() => {
-      const scoreTitleElement = document.getElementById('score-title');
-      if (scoreTitleElement) {
-        scoreTitleElement.focus();
-      }
-    }, 0);
-    this.exerciseCompletion();
-    */
-
-  }
-
-  getProgressBarPercentage(): number {
-    return 0;
-    /*
-    return Math.floor(
-      ((this.multipleChoiceService.currentQuestion + 1) * 100) /
-      this.multipleChoiceService.questions.length
-    );
-    */
-  }
 
   async exerciseCompletion() {
     /*
