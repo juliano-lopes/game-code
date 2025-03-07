@@ -30,7 +30,7 @@ export class ExerciseListComponent implements OnInit, AfterViewInit {
   constructor(private dataService: DataService, private route: ActivatedRoute, protected resolutionService: ResolutionService) { }
 
   async ngOnInit(): Promise<void> {
-    this.resolutions = await this.resolutionService.getExercisesCompleted();
+    this.updateCompletedExerciseList();
     //this.moduleId = this.route.snapshot.paramMap.get('moduleId');
     //this.route.paramMap.subscribe(params => {
     //this.moduleId = params.get('moduleId');
@@ -61,6 +61,7 @@ export class ExerciseListComponent implements OnInit, AfterViewInit {
       let el = id ? document.getElementById(id) : null;
       el ? el.focus() : false;
     }, 500);
+    this.updateCompletedExerciseList();
   }
   onNextExercise(currentExerciseId: string) {
     const nextExerciseIndex = this.getNextExerciseIndex(currentExerciseId);
@@ -73,6 +74,7 @@ export class ExerciseListComponent implements OnInit, AfterViewInit {
       //pode deixar o selectedExercise como null, ou mostrar uma mensagem.
       this.selectedExercise = undefined;
     }
+    this.updateCompletedExerciseList();
   }
   getNextExerciseIndex(currentExerciseId: string | undefined): number {
     const currentIndex = this.exercises.findIndex(exercise => exercise.id === currentExerciseId);
@@ -80,5 +82,8 @@ export class ExerciseListComponent implements OnInit, AfterViewInit {
       return currentIndex + 1;
     }
     return 0;
+  }
+  async updateCompletedExerciseList() {
+    this.resolutions = await this.resolutionService.getExercisesCompleted();
   }
 }
