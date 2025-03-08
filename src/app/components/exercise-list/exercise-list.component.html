@@ -1,7 +1,10 @@
 <mat-card class="container-column center">
     @if(!selectedExercise){
-    <h2 mat-card-title>{{title}}</h2>
-
+    <mat-card-header>
+        <h2 mat-card-title>{{title}}</h2>
+        <mat-progress-bar aria-hidden="true" mode="determinate" [value]="moduleProgress"></mat-progress-bar>
+        <mat-card-subtitle>{{moduleProgress}}% dos exercícios concluídos</mat-card-subtitle>
+    </mat-card-header>
     @if((exercises$|async)){
     <mat-card-content>
         <div class="container-column center">
