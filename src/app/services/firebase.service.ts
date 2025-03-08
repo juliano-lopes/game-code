@@ -1,6 +1,6 @@
 import { Inject, inject, Injectable, InjectionToken } from '@angular/core';
 import { ICrudInterface } from '../types/icrud.interface';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, take } from 'rxjs';
 import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentReference, getDoc, orderBy, OrderByDirection, query, setDoc, where } from '@firebase/firestore';
 import { collectionData, docData, Firestore } from '@angular/fire/firestore';
 import { FirebaseDocument } from '../types/firebase-document';
