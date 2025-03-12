@@ -1,40 +1,46 @@
-<mat-card class="container-column center">
-    @if(!selectedExercise){
-    <mat-card-header>
-        <h2 mat-card-title>{{title}}</h2>
-        <mat-progress-bar aria-hidden="true" mode="determinate" [value]="moduleProgress"></mat-progress-bar>
-        <mat-card-subtitle>{{moduleProgress}}% dos exercícios concluídos</mat-card-subtitle>
-    </mat-card-header>
-    @if((exercises$|async)){
-    <mat-card-content>
-        <div class="container-column center">
-            <mat-list>
-                @for(exercise of exercises; track exercise.id){
-                <mat-list-item>
+<mat-card>
+    <div class="container-column center">
+        @if(!selectedExercise){
+        <mat-card-header>
+            <div class="container-column">
+                <h2 mat-card-title>{{title}}</h2>
+                <mat-progress-bar aria-hidden="true" mode="determinate" [value]="moduleProgress"></mat-progress-bar>
+                <mat-card-subtitle>{{moduleProgress}}% dos exercícios concluídos</mat-card-subtitle>
+            </div>
+        </mat-card-header>
+        @if((exercises$|async)){
+        <mat-card-content>
+            <div class="container-column center">
+                <mat-list>
+                    @for(exercise of exercises; track exercise.id){
+                    <mat-list-item>
 
-                    @if (exercise.id && moduleId && resolutions[moduleId] &&
-                    resolutions[moduleId].includes(exercise.id)) {
-                    <mat-icon>check_circle</mat-icon>
-                    <button class="m-10" mat-raised-button color="primary" [id]="exercise.id"
-                        (click)="onSelectExercise(exercise)">
-                        Resolvido Exercício {{exercise.number}}
-                    </button>
-                    } @else {
-                    <mat-icon>radio_button_unchecked</mat-icon>
-                    <button class="m-10" mat-raised-button color="primary" [id]="exercise.id"
-                        (click)="onSelectExercise(exercise)">
-                        Abrir Exercício {{exercise.number}}
-                    </button>
+                        @if (exercise.id && moduleId && resolutions[moduleId] &&
+                        resolutions[moduleId].includes(exercise.id)) {
+                        <mat-icon>check_circle</mat-icon>
+                        <button class="m-10" mat-raised-button color="primary" [id]="exercise.id"
+                            (click)="onSelectExercise(exercise)">
+                            Resolvido Exercício {{exercise.number}}
+                        </button>
+                        } @else {
+                        <mat-icon>radio_button_unchecked</mat-icon>
+                        <button class="m-10" mat-raised-button color="primary" [id]="exercise.id"
+                            (click)="onSelectExercise(exercise)">
+                            Abrir Exercício {{exercise.number}}
+                        </button>
+                        }
+                    </mat-list-item>
                     }
-                </mat-list-item>
-                }
-                @empty { <mat-list>Nenhum exercício disponível.</mat-list> }
-            </mat-list>
-        </div>
-    </mat-card-content>
-    }
-    }
+                    @empty { <mat-list>Nenhum exercício disponível.</mat-list> }
+                </mat-list>
+            </div>
+        </mat-card-content>
+        }
+        }
+
+    </div>
 </mat-card>
+
 @if(selectedExercise){
 @if (selectedExercise.type && selectedExercise.type=="multiple-choice") {
 <app-multiple-choice-exercise [isNextExerciseAvailable]="getNextExerciseIndex(selectedExercise.id) > 0"

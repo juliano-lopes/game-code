@@ -1,12 +1,14 @@
 @if(exercise){
 <mat-card>
-    <mat-card-header class="container align-row-around">
+    <mat-card-header>
+        <div class="container align-row-around">
 
-        <h2 mat-card-subtitle tabindex="-1" #exerciseTitle>Exercício {{exercise.number}}</h2>
+            <h2 mat-card-subtitle tabindex="-1" #exerciseTitle>Exercício {{exercise.number}}</h2>
 
-        <button mat-raised-button color="accent" (click)="onBackToExerciseListActivated()">
-            <mat-icon>arrow_back</mat-icon> Fechar exercício</button>
+            <button mat-raised-button color="accent" (click)="onBackToExerciseListActivated()">
+                <mat-icon>arrow_back</mat-icon> Fechar exercício</button>
 
+        </div>
     </mat-card-header>
     <mat-card-content>
 

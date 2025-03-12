@@ -9,10 +9,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   template: `
   <mat-card>
     <mat-card-header>
+      <div class="container-column center">
 <h2 mat-card-title>Seja bem-vindo!</h2>
 <mat-progress-bar aria-hidden="true" mode="determinate" [value]="generalProgress"></mat-progress-bar>
         <mat-card-subtitle>{{generalProgress}}% de todos os exercícios concluídos</mat-card-subtitle>
-
+</div>
 </mat-card-header>
 <mat-card-content>
     <p>
