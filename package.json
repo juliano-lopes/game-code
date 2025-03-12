@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy:staging": "ng build && firebase deploy --only hosting:staging",
+    "deploy:staging": "ng build --configuration=staging && firebase deploy --only hosting:staging",
     "deploy:prod": "ng build && firebase deploy --only hosting:production"
   },
   "private": true,
