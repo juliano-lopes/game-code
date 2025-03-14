@@ -33,6 +33,7 @@ jobs:
       - name: Create environment.ts (staging)
         if: github.ref_name == 'staging'
         run: |
+          cp src/environment.staging.ts.template src/environments/environment.ts
           cp src/environment.staging.ts.template src/environments/environment.staging.ts
           sed -i "s|YOUR_API_KEY|${{ secrets.APIKEY }}|g" src/environments/environment.staging.ts
           sed -i "s|YOUR_AUTH_DOMAIN|${{ secrets.AUTHDOMAIN }}|g" src/environments/environment.staging.ts
