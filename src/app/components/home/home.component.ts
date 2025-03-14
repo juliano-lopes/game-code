@@ -31,10 +31,11 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild('title') title!: ElementRef;
   constructor(protected authService: AuthService) {
     //fetch("https://us-central1-game-code-482d3.cloudfunctions.net/sendEmail").then((data) => data.text()).then((data) => console.log("resposta sendEmail: ", data)).catch((error) => console.log("erro sendEmail: ", error));
-    document.title = "Staging - " + document.title;
+
   }
   ngAfterViewInit(): void {
     this.title.nativeElement.focus();
+    document.title = "Staging - " + document.title;
   }
   logout() {
     this.authService.logout();
