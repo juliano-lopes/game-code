@@ -4,7 +4,7 @@ import { DataService } from '../../services/data.service';
 import { ResolutionService } from '../../services/resolution.service';
 import { of, throwError, firstValueFrom, take } from 'rxjs';
 import { Exercise } from '../../types/exercise';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExerciseExecutionComponent } from '../exercise-execution/exercise-execution.component';
@@ -16,7 +16,8 @@ import { ActivatedRoute } from '@angular/router';
 import { convertToParamMap } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Title } from '@angular/platform-browser';
-
+import { ProgressService } from '../../services/progress.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 // Mock for ExerciseExecutionComponent
 @Component({
   selector: 'app-exercise-execution',
@@ -24,6 +25,9 @@ import { Title } from '@angular/platform-browser';
 })
 class MockExerciseExecutionComponent {
   @Input() exercise: any;
+  @Input() isNextExerciseAvailable: boolean = false;
+  @Output() backToExerciseList = new EventEmitter();
+  @Output() nextExercise = new EventEmitter();
 }
 
 // Mock for DataService
@@ -36,6 +40,10 @@ const mockDataService = {
 // Mock for ResolutionService
 const mockResolutionService = {
   getExercisesCompleted: jasmine.createSpy('getExercisesCompleted').and.returnValue(Promise.resolve([]))
+};
+
+const mockProgressService = {
+  moduleProgress: jasmine.createSpy('moduleProgress').and.returnValue(Promise.resolve(0))
 };
 
 const moduleId = 'testModule';
@@ -61,11 +69,12 @@ describe('ExerciseListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ExerciseListComponent, BrowserAnimationsModule, MatButtonModule, MatIconModule, MatCardModule, MatListModule, RouterTestingModule],
+      imports: [ExerciseListComponent, BrowserAnimationsModule, MatButtonModule, MatIconModule, MatCardModule, MatListModule, RouterTestingModule, MatProgressBarModule],
       providers: [
         { provide: DataService, useValue: mockDataService },
         { provide: ResolutionService, useValue: mockResolutionService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: ProgressService, useValue: mockProgressService },
         Title
       ],
     }).overrideComponent(ExerciseListComponent, {
@@ -227,7 +236,6 @@ describe('ExerciseListComponent', () => {
     component.onSelectExercise(exercise1);
     fixture.detectChanges();
     spyOn(document, 'getElementById').and.returnValue(document.createElement('button'));
-
     // Act
     component.onBackToExerciseList();
     tick(500);
