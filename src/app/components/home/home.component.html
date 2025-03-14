@@ -3,7 +3,7 @@
         <h1 #title tabindex="-1">Game Code App</h1>
 
         @if(authService.user$ | async) {
-        <div><mat-icon>person</mat-icon> Olá, {{authService.user.displayName || authService.user.email}}</div>
+        <div><mat-icon>person</mat-icon> Olá, {{(authService.user$ | async)?.displayName || (authService.user$ | async)?.email}}</div>
         }
 
         <div><button mat-button color="warn" (click)="logout()"><mat-icon>logout</mat-icon> Sair do

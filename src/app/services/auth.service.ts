@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, User, user } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { Auth, authState, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, User, user } from '@angular/fire/auth';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { doc, setDoc, Firestore } from '@angular/fire/firestore';
 
@@ -8,29 +8,33 @@ import { doc, setDoc, Firestore } from '@angular/fire/firestore';
   providedIn: 'root'
 })
 export class AuthService {
-  user$: Observable<any>;
-  user!: User;
+  private _user$ = new BehaviorSubject<User | null>(null);
+  user$: Observable<User | null> = this._user$.asObservable();
   constructor(
     private auth: Auth,
     private router: Router,
     private firestore: Firestore
   ) {
-    this.user$ = user(this.auth);
-    this.user$.subscribe((user) => this.user = user);
+    authState(this.auth).subscribe((user) => {
+      this._user$.next(user);
+    });
   }
 
   async loginWithGoogle() {
-    return signInWithPopup(this.auth, new GoogleAuthProvider())
-      .then((result) => {
-        console.log('You have been successfully logged in!');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const userCredential = await signInWithPopup(this.auth, new GoogleAuthProvider());
+      this._user$.next(userCredential.user);
+      console.log("Login success with google");
+    } catch (error: any) {
+      console.error(error.message);
+      throw error;
+    }
   }
   async login(email: string, password: string): Promise<void> {
     try {
-      await signInWithEmailAndPassword(this.auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+      this._user$.next(userCredential.user);
+      console.log("Login success");
     } catch (error: any) {
       console.error("Login error:", error);
       let message = '';
@@ -78,7 +82,7 @@ export class AuthService {
           email: email,
         });
       }
-      this.router.navigate(['/modules']);
+      this.router.navigate(['/login']);
     } catch (error: any) {
       console.error("Registration error:", error);
       throw error;
@@ -88,6 +92,7 @@ export class AuthService {
   async logout(): Promise<void> {
     try {
       await signOut(this.auth);
+      this._user$.next(null);
       this.router.navigate(['/login']);
     } catch (error: any) {
       console.error("Logout error:", error);

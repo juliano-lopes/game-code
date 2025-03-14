@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
 import { FirebaseService } from './firebase.service';
+import { FirebaseDocument } from '../types/firebase-document';
 
 describe('FirebaseService', () => {
-  let service: FirebaseService;
+  let service: FirebaseService<FirebaseDocument>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

@@ -26,7 +26,10 @@ export class ResolutionService {
       return new Promise((resolve, reject) => {
 
         this.auth.user$.subscribe((user) => {
-          const userId = user.uid;
+          const userId = user && user.uid ? user.uid : '';
+          if (!userId) {
+            throw new Error("É preciso haver um usuário válido para registrar a finalização do exercício");
+          }
           const resolution: Resolution = { exerciseId: exerciseId, moduleId: moduleId, userId: userId, completedAt: Timestamp.now() };
           console.log("Resolução exercício: ", resolution);
           this.data.createDataObject<Resolution>("resolutions").createOrUpdate(resolution).then((data) => resolve(true)).catch((error) => reject(false));
@@ -38,15 +41,23 @@ export class ResolutionService {
     }
   }
   async getExercisesCompleted(): Promise<{ [moduleId: string]: string[] }> {
-    const user = await firstValueFrom(this.auth.user$);
-    const resolutions = await firstValueFrom(this.data.createDataObject<Resolution>("resolutions").getByField("userId", user.uid));
-    const result: { [moduleId: string]: string[] } = {};
-    resolutions.forEach((resolution) => {
-      if (!result[resolution.moduleId]) {
-        result[resolution.moduleId] = [];
+    try {
+      const user = await firstValueFrom(this.auth.user$);
+      const userId = user?.uid;
+      if (!userId) {
+        throw new Error("É preciso haver um usuário válido logado");
       }
-      result[resolution.moduleId].push(resolution.exerciseId);
-    });
-    return result;
+      const resolutions = await firstValueFrom(this.data.createDataObject<Resolution>("resolutions").getByField("userId", userId));
+      const result: { [moduleId: string]: string[] } = {};
+      resolutions.forEach((resolution) => {
+        if (!result[resolution.moduleId]) {
+          result[resolution.moduleId] = [];
+        }
+        result[resolution.moduleId].push(resolution.exerciseId);
+      });
+      return result;
+    } catch (error) {
+      throw error;
+    }
   }
 }
