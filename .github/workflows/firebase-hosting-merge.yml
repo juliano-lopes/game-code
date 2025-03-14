@@ -52,7 +52,7 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GAME_CODE_482D3 }}
           projectId: game-code-482d3
-          siteId: staging-game-code-app
+          target: staging
       - name: Build Application (prod)
         if: github.ref_name == 'master'
         run: npm run build:prod
