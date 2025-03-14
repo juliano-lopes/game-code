@@ -44,5 +44,4 @@ Thumbs.db
 src/environments
 src/app/feed-database.ts
 # firebase
-.firebaserc
 .firebase

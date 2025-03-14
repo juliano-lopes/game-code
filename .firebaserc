@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "game-code-482d3"
+  },
+  "targets": {
+    "game-code-482d3": {
+      "hosting": {
+        "staging": [
+          "staging-game-code-app"
+        ],
+        "production": [
+          "a11ycodepuzzle"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
