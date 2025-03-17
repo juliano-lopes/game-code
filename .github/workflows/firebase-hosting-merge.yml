@@ -45,7 +45,7 @@ jobs:
       - name: unit tests (staging)
         run: |
           export CI=true
-          npm run test
+          ng test --watch=false
       - name: Build Application (staging)
         if: github.ref_name == 'staging'
         run: npm run build:staging
