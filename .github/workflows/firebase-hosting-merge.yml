@@ -43,7 +43,9 @@ jobs:
           sed -i "s|YOUR_APP_ID|${{ secrets.APPID }}|g" src/environments/environment.staging.ts
           sed -i "s|YOUR_MEASUREMENT_ID|${{ secrets.MEASUREMENTID}}|g" src/environments/environment.staging.ts
       - name: unit tests (staging)
-        run: CI = true  npm run test
+        run: |
+          export CI=true
+          npm run test
       - name: Build Application (staging)
         if: github.ref_name == 'staging'
         run: npm run build:staging
