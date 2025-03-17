@@ -1,6 +1,3 @@
-// Karma configuration file, see link for more information
-// https://karma-runner.github.io/1.0/config/configuration-file.html
-
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -18,7 +15,7 @@ module.exports = function (config) {
         // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
         // for example, you can disable the random execution with `random: false`
         // or set a specific seed with `seed: 4321`
-        random: false
+        random: process.env.CI ? false : false,
       },
     },
     jasmineHtmlReporter: {
@@ -32,9 +29,8 @@ module.exports = function (config) {
         { type: 'text-summary' }
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', ...(process.env.CI ? [] : ['kjhtml'])], // 'kjhtml' apenas localmente
     browsers: process.env.CI ? ['ChromeHeadlessNoSandbox'] : ['Chrome'],
-    browsers: ['ChromeHeadlessNoSandbox'],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
@@ -49,6 +45,6 @@ module.exports = function (config) {
         ]
       }
     },
-    restartOnFileChange: true
+    restartOnFileChange: process.env.CI ? false : true, // restartOnFileChange apenas localmente
   });
 };
