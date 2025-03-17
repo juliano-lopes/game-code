@@ -6,13 +6,18 @@ import { collectionData, docData, Firestore } from '@angular/fire/firestore';
 import { FirebaseDocument } from '../types/firebase-document';
 
 export const COLLECTION_PATH = new InjectionToken<string>('collectionPath');
+export const COLLECTION_FN = new InjectionToken<typeof collection>('collectionFn');
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService<T extends FirebaseDocument> implements ICrudInterface<T> {
   ref: CollectionReference<T>;
-  constructor(private firestore: Firestore, @Inject(COLLECTION_PATH) private path: string) {
-    this.ref = collection(this.firestore, this.path) as CollectionReference<T>;
+  constructor(
+    private firestore: Firestore,
+    @Inject(COLLECTION_PATH) private path: string,
+    @Inject(COLLECTION_FN) private collectionFn: typeof collection
+  ) {
+    this.ref = this.collectionFn(this.firestore, this.path) as CollectionReference<T>;
   }
   get(id: string): Observable<T> {
     const docRef = doc(this.firestore, this.ref.path, id);
