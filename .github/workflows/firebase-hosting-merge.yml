@@ -42,6 +42,8 @@ jobs:
           sed -i "s|YOUR_MESSAGING_SENDER_ID|${{ secrets.MESSAGINGSENDERID }}|g" src/environments/environment.staging.ts
           sed -i "s|YOUR_APP_ID|${{ secrets.APPID }}|g" src/environments/environment.staging.ts
           sed -i "s|YOUR_MEASUREMENT_ID|${{ secrets.MEASUREMENTID}}|g" src/environments/environment.staging.ts
+      - name: test Application (staging)
+        run: npm run test
       - name: Build Application (staging)
         if: github.ref_name == 'staging'
         run: npm run build:staging
